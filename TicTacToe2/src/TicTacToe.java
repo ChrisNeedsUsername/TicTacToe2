@@ -4,8 +4,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +15,8 @@ import javax.swing.UIManager;
 
 public class TicTacToe implements ActionListener{
 
+	ArrayList<Integer> winner = new ArrayList<Integer>();
+	
 	JFrame frame = new JFrame();
 	JPanel MainPanel = new JPanel();
 	JPanel header = new JPanel();
@@ -40,11 +42,23 @@ public class TicTacToe implements ActionListener{
 	boolean press8 = false;
 	boolean press9 = false;
 	
+	int Reihe1;
+	int Reihe2;
+	int Reihe3;
+	int Spalte1;
+	int Spalte2;
+	int Spalte3;
+	int Diagonal1;
+	int Diagonal2;
+	
+	
+	
 	// BUTTONS
 	JButton[] AllGameButtons = new JButton[9];
 	
 	public void startTicTacToe() {
 		
+		setArrayList();
 		myFrame();
 		getSymbol();
 		firstTurn();
@@ -117,7 +131,6 @@ public class TicTacToe implements ActionListener{
 		try {
 			Thread.sleep(1500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if((int)(Math.random() * 2) == 1) {
@@ -142,6 +155,115 @@ public class TicTacToe implements ActionListener{
 		}
 	}
 	
+	private void setArrayList() {
+		
+		for(int i = 0; i < 10; i++) {
+			winner.add(0);
+			}
+	}	
+
+	
+	private void fillArray() {
+		
+		if(AllGameButtons[0].getText() == "X") {
+			winner.set(1, 10);
+		}
+		if(AllGameButtons[1].getText() == "X") {
+			winner.set(2, 10);
+		}
+		if(AllGameButtons[2].getText() == "X") {
+			winner.set(3, 10);
+		}
+		if(AllGameButtons[3].getText() == "X") {
+			winner.set(4, 10);
+		}
+		if(AllGameButtons[4].getText() == "X") {
+			winner.set(5, 10);
+		}
+		if(AllGameButtons[5].getText() == "X") {
+			winner.set(6, 10);
+		}
+		if(AllGameButtons[6].getText() == "X") {
+			winner.set(7, 10);
+		}
+		if(AllGameButtons[7].getText() == "X") {
+			winner.set(8, 10);
+		}
+		if(AllGameButtons[8].getText() == "X") {
+			winner.set(9, 10);
+		}
+
+		if(AllGameButtons[0].getText() == "O") {
+			winner.set(1, 1);
+		}
+		if(AllGameButtons[1].getText() == "O") {
+			winner.set(2, 1);
+		}
+		if(AllGameButtons[2].getText() == "O") {
+			winner.set(3, 1);
+		}
+		if(AllGameButtons[3].getText() == "O") {
+			winner.set(4, 1);
+		}
+		if(AllGameButtons[4].getText() == "O") {
+			winner.set(5, 1);
+		}
+		if(AllGameButtons[5].getText() == "O") {
+			winner.set(6, 1);
+		}
+		if(AllGameButtons[6].getText() == "O") {
+			winner.set(7, 1);
+		}
+		if(AllGameButtons[7].getText() == "O") {
+			winner.set(8, 1);
+		}
+		if(AllGameButtons[8].getText() == "O") {
+			winner.set(9, 1);
+		}
+	}
+	
+	private void botAI() {
+		
+		Reihe1 = winner.get(1) + winner.get(2) + winner.get(3);
+		Reihe2 = winner.get(4) + winner.get(5) + winner.get(6);
+		Reihe3 = winner.get(7) + winner.get(8) + winner.get(9);
+		
+		Spalte1 = winner.get(1) + winner.get(4) + winner.get(7);
+		Spalte2 = winner.get(2) + winner.get(5) + winner.get(8);
+		Spalte3 = winner.get(3) + winner.get(6) + winner.get(9);
+		
+		Diagonal1 = winner.get(1) + winner.get(5) + winner.get(9);
+		Diagonal2 = winner.get(3) + winner.get(5) + winner.get(7);
+		
+		int Alle = Reihe1 + Reihe2 + Reihe3;
+		
+		if(Reihe1 == 3 || Reihe2 == 3 || Reihe3 == 3 || Spalte1 == 3 || Spalte2 == 3 || Spalte3 == 3 || Diagonal1 == 3 || Diagonal2 == 3) {	
+			System.out.println("Winner is: O");
+			
+			for(int i=0; i<9; i++) {
+				AllGameButtons[i].setEnabled(false);
+			}
+			
+			//greenEnd();
+			//stopGame = true;
+		}
+		else if(Reihe1 == 30 || Reihe2 == 30 || Reihe3 == 30 || Spalte1 == 30 || Spalte2 == 30 || Spalte3 == 30 || Diagonal1 == 30 || Diagonal2 == 30) {
+			System.out.println("Winner is: X");
+			
+			for(int i=0; i<9; i++) {
+				AllGameButtons[i].setEnabled(false);
+			}
+			//greenEnd();
+			//stopGame = true;
+		}
+		else if(Alle == 45 || Alle == 54) {
+			
+			System.out.println("Draw");
+			//stopGame = true;
+		}
+		
+	}
+	
 	private void botPress() {
 		int randomButton = (int)(Math.random() * 9);
 		boolean notPressed = true;
@@ -149,7 +271,6 @@ public class TicTacToe implements ActionListener{
 		try {
 			Thread.sleep(1300);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -298,6 +419,8 @@ public class TicTacToe implements ActionListener{
 					label.setText("Bots Turn");
 					playersTurn = false;	
 			}
+			fillArray();
+			botAI();
 		}
 		else {
 
@@ -385,6 +508,9 @@ public class TicTacToe implements ActionListener{
 					press9 = false;
 			}
 	
+			fillArray();
+			botAI();
+			System.out.println(winner);
 		}
 	}
 }
