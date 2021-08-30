@@ -932,6 +932,31 @@ public class TicTacToe implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		if(blockReset) {
+			
+			if(e.getSource()==ColorButtons[0]) {
+				PlayerColor = ColorButtons[0].getBackground();
+			}
+			else if(e.getSource()==ColorButtons[1]) {
+				PlayerColor = ColorButtons[1].getBackground();
+			}
+			else if(e.getSource()==ColorButtons[2]) {
+				PlayerColor = ColorButtons[2].getBackground();
+			}
+			else if(e.getSource()==ColorButtons[3]) {
+				PlayerColor = ColorButtons[3].getBackground();
+			}
+			else if(e.getSource()==ColorButtons[4]) {
+				PlayerColor = ColorButtons[4].getBackground();
+			}
+			else if(e.getSource()==ColorButtons[5]) {
+				PlayerColor = ColorButtons[5].getBackground();
+			}
+			
+			
+		}
+		
+		
 		if(e.getSource()==restartButton && blockReset == false) {
 			//System.out.println("restart");
 			
