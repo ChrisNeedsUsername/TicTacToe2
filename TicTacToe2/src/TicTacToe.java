@@ -20,6 +20,7 @@ public class TicTacToe implements ActionListener{
 	JFrame frame = new JFrame();
 	JPanel MainPanel = new JPanel();
 	JPanel header = new JPanel();
+	JPanel colors = new JPanel();
 	JLabel label = new JLabel();
 	ImageIcon icon = new ImageIcon("src/icon.png");
 	
@@ -29,6 +30,14 @@ public class TicTacToe implements ActionListener{
 	
 	Color BotColor = Color.red;
 	String BotSymbol;
+	
+	static Color colorTL = Color.blue;
+	static Color colorML = Color.green;
+	static Color colorBL = Color.red;
+	static Color colorTR = Color.cyan;
+	static Color colorMR = Color.magenta;
+	static Color colorBR = Color.yellow;
+	
 	
 	boolean gameOver = false;
 	
@@ -57,6 +66,7 @@ public class TicTacToe implements ActionListener{
 	
 	// BUTTONS
 	JButton[] AllGameButtons = new JButton[9];
+	JButton[] ColorButtons = new JButton[6];
 	JButton restartButton = new JButton("Restart");
 	
 	public void startTicTacToe() {
@@ -111,17 +121,26 @@ public class TicTacToe implements ActionListener{
 		label.setBackground(new Color(58, 58, 60));
 		label.setOpaque(true);
 			
+		
+		colors.setLayout(new GridLayout(3, 2, 8, 8));
+		colors.setBackground(new Color(58, 58, 60));
+
+		addColorButtons();
+		
 		header.setLayout(new BorderLayout());
 		header.setBounds(0, 0, 600, 100);
 		header.add(label);
+		header.add(colors, BorderLayout.WEST);
 		frame.add(header, BorderLayout.NORTH);
+		
+		setColorofColorButtons();
 		
 		addGameButtons();
 		MainPanel.setBounds(0, 100, 600, 615);
 		MainPanel.setLayout(new GridLayout(3, 3, 8, 8));
 		MainPanel.setBackground(Color.lightGray);
 		frame.add(MainPanel);
-
+	
 		//restartButton.setBounds(480, 20, 80, 60);
 		restartButton.addActionListener(this);
 		restartButton.setFocusable(false);
@@ -138,13 +157,34 @@ public class TicTacToe implements ActionListener{
 	private void addGameButtons() {
 		for(int i=0;i<9;i++) {
 			AllGameButtons[i] = new JButton();
-			MainPanel.add(AllGameButtons[i]);
 			AllGameButtons[i].setFont(new Font("Kalam", Font.CENTER_BASELINE, 100));
 			AllGameButtons[i].setFocusable(false);
 			AllGameButtons[i].addActionListener(this);
 			AllGameButtons[i].setBackground(Color.DARK_GRAY);
 			AllGameButtons[i].setBorderPainted(false);
+			MainPanel.add(AllGameButtons[i]);
 			}	
+	}
+	
+	private void addColorButtons() {
+		for(int i=0;i<6;i++) {
+			ColorButtons[i] = new JButton();
+			ColorButtons[i].setFocusable(false);
+			ColorButtons[i].setText("  ");
+			ColorButtons[i].addActionListener(this);
+			ColorButtons[i].setBorderPainted(false);
+			
+			colors.add(ColorButtons[i]);
+		}	
+	}
+	
+	private void setColorofColorButtons() {
+		ColorButtons[0].setBackground(colorTL);
+		ColorButtons[2].setBackground(colorML);
+		ColorButtons[4].setBackground(colorBL);
+		ColorButtons[1].setBackground(colorTR);
+		ColorButtons[3].setBackground(colorMR);
+		ColorButtons[5].setBackground(colorBR);
 	}
 	
 	private void firstTurn() {
@@ -273,7 +313,7 @@ public class TicTacToe implements ActionListener{
 		setReiheSpalteDiagonale();
 		//-------Win or loose--------------
 		if(Reihe1 == 3 || Reihe2 == 3 || Reihe3 == 3 || Spalte1 == 3 || Spalte2 == 3 || Spalte3 == 3 || Diagonal1 == 3 || Diagonal2 == 3) {	
-			System.out.println("Winner is: O");
+			label.setText("O won");
 			playersTurn = true;
 			stopBot = true;
 			
@@ -285,7 +325,7 @@ public class TicTacToe implements ActionListener{
 			//stopGame = true;
 		}
 		else if(Reihe1 == 30 || Reihe2 == 30 || Reihe3 == 30 || Spalte1 == 30 || Spalte2 == 30 || Spalte3 == 30 || Diagonal1 == 30 || Diagonal2 == 30) {
-			System.out.println("Winner is: X");
+			label.setText("X won");
 			stopBot = true;
 			playersTurn = true;
 
@@ -299,7 +339,7 @@ public class TicTacToe implements ActionListener{
 			stopBot = true;
 			playersTurn = true;
 
-			System.out.println("Draw");
+			label.setText("Draw");
 			//stopGame = true;
 		}
 		
