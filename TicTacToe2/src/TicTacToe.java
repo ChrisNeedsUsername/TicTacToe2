@@ -42,27 +42,33 @@ public class TicTacToe implements ActionListener{
 	boolean press8 = false;
 	boolean press9 = false;
 	
-	int Reihe1;
-	int Reihe2;
-	int Reihe3;
-	int Spalte1;
-	int Spalte2;
-	int Spalte3;
-	int Diagonal1;
-	int Diagonal2;
-	
-	
+	static int Reihe1;
+	static int Reihe2;
+	static int Reihe3;
+	static int Spalte1;
+	static int Spalte2;
+	static int Spalte3;
+	static int Diagonal1;
+	static int Diagonal2;
+	static int Alle;
 	
 	// BUTTONS
 	JButton[] AllGameButtons = new JButton[9];
+	JButton restartButton = new JButton("Restart");
 	
 	public void startTicTacToe() {
-		
-		setArrayList();
-		myFrame();
+				
 		getSymbol();
 		firstTurn();
-	
+		//setReiheSpalteDiagonale();
+		
+		/*
+		for(int i=0; i<9; i++) {
+			if(AllGameButtons[i].getText()=="" && !playersTurn) {
+				gameOver = false;
+			}
+		}	*/
+
 		while(!gameOver) {
 			if(!playersTurn) {
 			//System.out.println(winner);
@@ -76,7 +82,7 @@ public class TicTacToe implements ActionListener{
 	}
 
 	//------------FRAME HEADER ICON--------------
-	private void myFrame() { 
+	public void myFrame() { 
 
 		// Frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -113,7 +119,16 @@ public class TicTacToe implements ActionListener{
 		MainPanel.setBackground(Color.lightGray);
 		frame.add(MainPanel);
 
-	
+		//restartButton.setBounds(480, 20, 80, 60);
+		restartButton.addActionListener(this);
+		restartButton.setFocusable(false);
+		restartButton.setBackground(new Color(54, 54, 56));
+		restartButton.setForeground(Color.LIGHT_GRAY);
+		restartButton.setFont(new Font("Kalam", Font.CENTER_BASELINE, 20));
+		header.add(restartButton, BorderLayout.EAST);
+		
+		
+		
 	}
 	
 	private void addGameButtons() {
@@ -156,7 +171,7 @@ public class TicTacToe implements ActionListener{
 		}
 	}
 	
-	private void setArrayList() {
+	public void setArrayList() {
 		
 		for(int i = 0; i < 10; i++) {
 			winner.add(0);
@@ -223,7 +238,7 @@ public class TicTacToe implements ActionListener{
 		}
 	}
 	
-	private void win() {
+	private void setReiheSpalteDiagonale() {
 		
 		Reihe1 = winner.get(1) + winner.get(2) + winner.get(3);
 		Reihe2 = winner.get(4) + winner.get(5) + winner.get(6);
@@ -236,13 +251,21 @@ public class TicTacToe implements ActionListener{
 		Diagonal1 = winner.get(1) + winner.get(5) + winner.get(9);
 		Diagonal2 = winner.get(3) + winner.get(5) + winner.get(7);
 		
-		int Alle = Reihe1 + Reihe2 + Reihe3;
+		Alle = Reihe1 + Reihe2 + Reihe3;
+	
+	}
+	
+	
+	private void win() {
 		
 		
+		
+		//System.out.println(winner);
+		setReiheSpalteDiagonale();
 		//-------Win or loose--------------
 		if(Reihe1 == 3 || Reihe2 == 3 || Reihe3 == 3 || Spalte1 == 3 || Spalte2 == 3 || Spalte3 == 3 || Diagonal1 == 3 || Diagonal2 == 3) {	
 			System.out.println("Winner is: O");
-			gameOver = true;
+		//	gameOver = true;
 			
 			for(int i=0; i<9; i++) {
 				AllGameButtons[i].setEnabled(false);
@@ -253,7 +276,7 @@ public class TicTacToe implements ActionListener{
 		}
 		else if(Reihe1 == 30 || Reihe2 == 30 || Reihe3 == 30 || Spalte1 == 30 || Spalte2 == 30 || Spalte3 == 30 || Diagonal1 == 30 || Diagonal2 == 30) {
 			System.out.println("Winner is: X");
-			gameOver = true;
+		//	gameOver = true;
 			
 			for(int i=0; i<9; i++) {
 				AllGameButtons[i].setEnabled(false);
@@ -262,7 +285,7 @@ public class TicTacToe implements ActionListener{
 			//stopGame = true;
 		}
 		else if(Alle == 45 || Alle == 54) {
-			gameOver = true;
+		//	gameOver = true;
 			
 			System.out.println("Draw");
 			//stopGame = true;
@@ -273,16 +296,7 @@ public class TicTacToe implements ActionListener{
 	
 	private void botAI() {
 		
-		Reihe1 = winner.get(1) + winner.get(2) + winner.get(3);
-		Reihe2 = winner.get(4) + winner.get(5) + winner.get(6);
-		Reihe3 = winner.get(7) + winner.get(8) + winner.get(9);
-		
-		Spalte1 = winner.get(1) + winner.get(4) + winner.get(7);
-		Spalte2 = winner.get(2) + winner.get(5) + winner.get(8);
-		Spalte3 = winner.get(3) + winner.get(6) + winner.get(9);
-		
-		Diagonal1 = winner.get(1) + winner.get(5) + winner.get(9);
-		Diagonal2 = winner.get(3) + winner.get(5) + winner.get(7);
+		setReiheSpalteDiagonale();
 
 		//----------Bot AI---------------
 		/*
@@ -514,6 +528,11 @@ public class TicTacToe implements ActionListener{
 						press7 = true;
 					}
 				}
+				//-----------------------------Strategie-------------------------------------
+				
+				
+				
+				
 				
 				
 				//-----------------------------Irgendwas-------------------------------------
@@ -771,6 +790,14 @@ public class TicTacToe implements ActionListener{
 					}
 				}
 				
+				//-----------------------------Strategie-------------------------------------
+				
+				
+				
+				
+				
+				
+				
 				//-----------------------------Irgendwas-------------------------------------
 				if(press1==false && press2==false && press3==false && press4==false && press5==false && press6==false && press7==false && press8==false && press9==false) {
 					int randomNumber = (int)(Math.random() * 9);
@@ -852,7 +879,27 @@ public class TicTacToe implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-				
+		
+		if(e.getSource()==restartButton) {
+			//System.out.println("restart");
+			
+			for(int i=0; i<10; i++) {
+				winner.set(i, 0);
+			}
+			for(int r = 0; r<9; r++) {
+				AllGameButtons[r].setText("");
+				AllGameButtons[r].setEnabled(true);
+			}
+			setReiheSpalteDiagonale();
+			//System.out.println(Alle);
+			//System.out.println(winner);
+			getSymbol();
+			firstTurn();
+			gameOver = false;
+		}
+		
+		
+		
 		if(playersTurn) {
 			
 			if(e.getSource()==AllGameButtons[0]) {
@@ -954,6 +1001,7 @@ public class TicTacToe implements ActionListener{
 			}
 			fillArray();
 			win();
+			
 			//botAI();
 			/*
 			System.out.println(press1);
@@ -968,7 +1016,7 @@ public class TicTacToe implements ActionListener{
 			*/
 		}
 		else {
-
+			
 			//UIManager.getDefaults().put("Button.disabledText", BotColor);
 			
 			if(press1) {
@@ -1060,7 +1108,9 @@ public class TicTacToe implements ActionListener{
 			
 
 		}
+		
 	}
+	
 }
 
 	
