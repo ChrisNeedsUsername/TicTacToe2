@@ -23,8 +23,10 @@ public class TicTacToe implements ActionListener{
 	JPanel MainPanel = new JPanel();
 	JPanel header = new JPanel();
 	JPanel colors = new JPanel();
+	JPanel topRight = new JPanel();
 	JLabel label = new JLabel();
-	ImageIcon icon = new ImageIcon("src/icon.png");
+	ImageIcon icon = new ImageIcon("icon.png");
+	ImageIcon MenuIcon = new ImageIcon("Zahnrad.png");
 	
 	boolean playersTurn;
 	Color PlayerColor = Color.green;
@@ -70,6 +72,7 @@ public class TicTacToe implements ActionListener{
 	JButton[] AllGameButtons = new JButton[9];
 	JButton[] ColorButtons = new JButton[6];
 	JButton restartButton = new JButton("Restart");
+	JButton MenuButton = new JButton(MenuIcon);
 	
 	public void startTicTacToe() {
 				
@@ -148,17 +151,29 @@ public class TicTacToe implements ActionListener{
 		MainPanel.setBackground(Color.lightGray);
 		frame.add(MainPanel);
 	
-		//restartButton.setBounds(480, 20, 80, 60);
+		topRight.setLayout(new GridLayout(2, 1, 8, 8));
+		topRight.setBackground(new Color(58, 58, 60));
+		topRight.setBorder(new EmptyBorder(10, 5, 10, 5));
+		header.add(topRight, BorderLayout.EAST);
+		
+		MenuButton.addActionListener(this);
+		MenuButton.setFocusable(false);
+		MenuButton.setBackground(new Color(44, 44, 46));
+		MenuButton.setBorder(new EmptyBorder(10, 10, 10, 10));
+		MenuButton.setFont(new Font("Kalam", Font.CENTER_BASELINE, 20));
+		MenuButton.setBorderPainted(false);
+		MenuButton.setPreferredSize(new Dimension(50, 50));
+		topRight.add(MenuButton, BorderLayout.EAST);
+		
 		restartButton.addActionListener(this);
 		restartButton.setFocusable(false);
 		restartButton.setBackground(new Color(44, 44, 46));
 		restartButton.setForeground(Color.LIGHT_GRAY);
 		restartButton.setFont(new Font("Kalam", Font.CENTER_BASELINE, 20));
 		restartButton.setBorderPainted(false);
-		header.add(restartButton, BorderLayout.EAST);
-		
-		
-		
+		restartButton.setPreferredSize(new Dimension(100, 50));
+		topRight.add(restartButton, BorderLayout.EAST);
+	
 	}
 	
 	private void addGameButtons() {
