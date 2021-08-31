@@ -153,7 +153,7 @@ public class TicTacToe implements ActionListener{
 		frame.setMinimumSize(new Dimension(700,815));
 		
 		frame.setSize(700,815);
-		System.out.println(frame.getSize());
+		//System.out.println(frame.getSize());
 		frame.setVisible(true);
 		
 		// Text and icon in header
@@ -441,6 +441,20 @@ public class TicTacToe implements ActionListener{
 		
 		//System.out.println(winner);
 		setReiheSpalteDiagonale();
+		/*
+		System.out.println(Reihe1);
+		System.out.println(Reihe2);
+		System.out.println(Reihe3);
+		
+		System.out.println(Spalte1);
+		System.out.println(Spalte2);
+		System.out.println(Spalte3);
+		
+		System.out.println(Diagonal1);
+		System.out.println(Diagonal2);
+		
+		*/
+		
 		//-------Win or loose--------------
 		if(Reihe1 == 3 || Reihe2 == 3 || Reihe3 == 3 || Spalte1 == 3 || Spalte2 == 3 || Spalte3 == 3 || Diagonal1 == 3 || Diagonal2 == 3) {	
 			label.setText(Owon);
@@ -1158,7 +1172,7 @@ public class TicTacToe implements ActionListener{
 				AllGameButtons[r].setText("");
 				AllGameButtons[r].setEnabled(true);
 			}
-			setReiheSpalteDiagonale();
+			//setReiheSpalteDiagonale();
 			//System.out.println(Alle);
 			//System.out.println(winner);
 
@@ -1183,6 +1197,9 @@ public class TicTacToe implements ActionListener{
 					if(stopBot == false) {
 						playersTurn = false;
 						label.setText("Bots Turn");
+						
+						fillArray();
+						win();
 					}
 			}
 			else if(e.getSource()==AllGameButtons[1] && AllGameButtons[1].getText()=="") {
@@ -1197,6 +1214,9 @@ public class TicTacToe implements ActionListener{
 					if(stopBot == false) {
 						playersTurn = false;
 						label.setText("Bots Turn");
+						
+						fillArray();
+						win();
 					}
 			}
 			else if(e.getSource()==AllGameButtons[2] && AllGameButtons[2].getText()=="") {
@@ -1344,6 +1364,8 @@ public class TicTacToe implements ActionListener{
 					label.setText("Your Turn");
 					playersTurn = true;	
 					press1 = false;
+					fillArray();
+					win();
 			}
 			else if(press2 && AllGameButtons[1].getText() == "") {
 					System.out.println("Button 2 Bot");
@@ -1352,6 +1374,8 @@ public class TicTacToe implements ActionListener{
 					label.setText("Your Turn");
 					playersTurn = true;
 					press2 = false;
+					fillArray();
+					win();
 			}
 			else if(press3 && AllGameButtons[2].getText() == "") {
 					System.out.println("Button 3 Bot");
@@ -1360,6 +1384,8 @@ public class TicTacToe implements ActionListener{
 					label.setText("Your Turn");
 					playersTurn = true;
 					press3 = false;
+					fillArray();
+					win();
 			}		
 			else if(press4 && AllGameButtons[3].getText() == "") {
 					System.out.println("Button 4 Bot");
@@ -1368,6 +1394,8 @@ public class TicTacToe implements ActionListener{
 					label.setText("Your Turn");
 					playersTurn = true;
 					press4 = false;
+					fillArray();
+					win();
 			}
 			else if(press5 && AllGameButtons[4].getText() == "") {
 					System.out.println("Button 5 Bot");
@@ -1376,6 +1404,8 @@ public class TicTacToe implements ActionListener{
 					label.setText("Your Turn");
 					playersTurn = true;
 					press5 = false;
+					fillArray();
+					win();
 			}
 			else if(press6 && AllGameButtons[5].getText() == "") {
 					System.out.println("Button 6 Bot");
@@ -1384,6 +1414,8 @@ public class TicTacToe implements ActionListener{
 					label.setText("Your Turn");
 					playersTurn = true;
 					press6 = false;
+					fillArray();
+					win();
 			}
 			else if(press7 && AllGameButtons[6].getText() == "") {
 					System.out.println("Button 7 Bot");
@@ -1392,6 +1424,8 @@ public class TicTacToe implements ActionListener{
 					label.setText("Your Turn");
 					playersTurn = true;
 					press7 = false;
+					fillArray();
+					win();
 			}
 			else if(press8 && AllGameButtons[7].getText() == "") {
 					System.out.println("Button 8 Bot");
@@ -1400,6 +1434,8 @@ public class TicTacToe implements ActionListener{
 					label.setText("Your Turn");
 					playersTurn = true;
 					press8 = false;
+					fillArray();
+					win();
 			}
 			else if(press9 && AllGameButtons[8].getText() == "") {
 					System.out.println("Button 9 Bot");
@@ -1408,17 +1444,18 @@ public class TicTacToe implements ActionListener{
 					label.setText("Your Turn");
 					playersTurn = true;
 					press9 = false;
+					fillArray();
+					win();
 			}
 	
-			fillArray();
-			win();
+
 			
 			//System.out.println(winner);
 			
 
 		}
 		
-		
+
 		
 	}
 	
