@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -27,6 +28,10 @@ public class TicTacToe implements ActionListener{
 	JPanel header = new JPanel();
 	JPanel colors = new JPanel();
 	JPanel topRight = new JPanel();
+	
+	//JPanel with CardLayout to switch between overlapping panels -> MainPanel, menuPanel
+	JPanel gameMenuCard = new JPanel(new CardLayout());
+	
 	
 	JPanel menuPanel = new JPanel(new GridLayout(6, 1, 5, 5));
 	JPanel menuLine1 = new JPanel(new GridLayout(1, 4, 10, 10));
@@ -62,7 +67,7 @@ public class TicTacToe implements ActionListener{
 	static Color colorMR = Color.magenta;
 	static Color colorBR = Color.yellow;
 	
-	Font myFont = new Font("Kalam", Font.CENTER_BASELINE, 20);
+	Font myFont = new Font("Kalam", Font.CENTER_BASELINE, 25);
 	
 	//Menu
 	Color MenuColor = Color.darkGray;
@@ -71,7 +76,7 @@ public class TicTacToe implements ActionListener{
 	JLabel Line1 = new JLabel("Design:");
 	JRadioButton light = new JRadioButton("light");
 	JRadioButton dark = new JRadioButton("dark");
-	JRadioButton individual = new JRadioButton("individual");
+	JRadioButton custom = new JRadioButton("custom");
 	ButtonGroup group1 = new ButtonGroup();
 	
 	
@@ -145,9 +150,9 @@ public class TicTacToe implements ActionListener{
 		frame.setLayout(new BorderLayout());
 		frame.setIconImage(icon.getImage());
 		frame.getContentPane().setBackground(Color.lightGray);
-		frame.setMinimumSize(new Dimension(600,715));
+		frame.setMinimumSize(new Dimension(700,815));
 		
-		frame.setSize(600,715);
+		frame.setSize(700,815);
 		System.out.println(frame.getSize());
 		frame.setVisible(true);
 		
@@ -179,18 +184,19 @@ public class TicTacToe implements ActionListener{
 		
 		setColorofColorButtons();
 		
+
+		
 		addGameButtons();
-		MainPanel.setBounds(0, 100, 600, 615);
+		//MainPanel.setBounds(0, 100, 600, 615);
 		MainPanel.setLayout(new GridLayout(3, 3, 8, 8));
 		MainPanel.setBackground(Color.lightGray);
-		frame.add(MainPanel);
+		//frame.add(MainPanel);
 	
 		//Menu
-		menuPanel.setBounds(300, 100, 100, 115);
+		//menuPanel.setBounds(300, 100, 100, 115);
 		menuPanel.setBackground(MenuColor);
 		menuPanel.setBorder(new EmptyBorder(0, 20, 20, 20));
-		
-		menuPanel.setVisible(true);
+		fillMenuPanel();
 		
 		menuLine1.setBackground(MenuColor);//MenuColor);
 		menuLine2.setBackground(Color.red);//MenuColor);
@@ -199,10 +205,17 @@ public class TicTacToe implements ActionListener{
 		menuLine5.setBackground(Color.yellow);//(MenuColor);
 		menuLine6.setBackground(Color.magenta);//(MenuColor);
 		
+		
+		//CardLayout
+		//gameMenuCard.setBounds(Reihe1, Diagonal2, Diagonal1, Alle);
+		gameMenuCard.add(MainPanel, "nameMainPanel");
+		gameMenuCard.add(menuPanel, "nameMenuPanel");
+		frame.add(gameMenuCard, BorderLayout.CENTER);
+		
 		//Line1
 		group1.add(light);
 		group1.add(dark);
-		group1.add(individual);
+		group1.add(custom);
 		Line1.setForeground(MenuFontColor);
 		Line1.setFont(myFont);
 		
@@ -218,16 +231,16 @@ public class TicTacToe implements ActionListener{
 		dark.setFocusable(false);
 		dark.addActionListener(this);
 		
-		individual.setForeground(MenuFontColor);
-		individual.setBackground(MenuColor);
-		individual.setFont(myFont);
-		individual.setFocusable(false);
-		individual.addActionListener(this);
+		custom.setForeground(MenuFontColor);
+		custom.setBackground(MenuColor);
+		custom.setFont(myFont);
+		custom.setFocusable(false);
+		custom.addActionListener(this);
 		
 		menuLine1.add(Line1);
 		menuLine1.add(light);
 		menuLine1.add(dark);
-		menuLine1.add(individual);
+		menuLine1.add(custom);
 		
 		
 		
@@ -237,7 +250,7 @@ public class TicTacToe implements ActionListener{
 		
 		topRight.setLayout(new GridLayout(2, 1, 8, 8));
 		topRight.setBackground(new Color(58, 58, 60));
-		topRight.setBorder(new EmptyBorder(10, 5, 10, 5));
+		topRight.setBorder(new EmptyBorder(10, 0, 10, 5));
 		header.add(topRight, BorderLayout.EAST);
 		
 		MenuButton.addActionListener(this);
@@ -256,7 +269,7 @@ public class TicTacToe implements ActionListener{
 		restartButton.setForeground(Color.LIGHT_GRAY);
 		restartButton.setFont(myFont);
 		restartButton.setBorderPainted(false);
-		restartButton.setPreferredSize(new Dimension(100, 50));
+		restartButton.setPreferredSize(new Dimension(120, 50));
 		topRight.add(restartButton, BorderLayout.EAST);
 	
 	}
@@ -1098,8 +1111,10 @@ public class TicTacToe implements ActionListener{
 				label.setText("Your Turn");
 				}
 				
-				frame.remove(menuPanel);
-				MainPanel.setVisible(true);
+				CardLayout CardLayout1 = (CardLayout)(gameMenuCard.getLayout());
+				CardLayout1.show(gameMenuCard,"nameMainPanel");
+				//frame.remove(menuPanel);
+				//MainPanel.setVisible(true);
 				inMenu = false;
 			}
 			else {
@@ -1114,15 +1129,15 @@ public class TicTacToe implements ActionListener{
 					Owin = true;
 				}
 				
-				//System.out.println(draw);
-				//System.out.println(Xwin);
-				//System.out.println(Owin);
-				
 				label.setText("Menu");
-				frame.add(menuPanel);
-				fillMenuPanel();
-				MainPanel.setVisible(false);
-					
+				
+				CardLayout CardLayout1 = (CardLayout)(gameMenuCard.getLayout());
+				CardLayout1.show(gameMenuCard,"nameMenuPanel");
+				
+				//MainPanel.setVisible(false);
+				//frame.add(menuPanel);
+				//fillMenuPanel();
+				
 				
 				inMenu = true;
 			}
