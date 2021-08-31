@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
 public class TicTacToe implements ActionListener{
 
@@ -99,13 +101,17 @@ public class TicTacToe implements ActionListener{
 
 		// Frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(600, 715);
+		//frame.setSize(600, 715);
 		frame.setResizable(true);
 		frame.setLocation(840, 400);
 		frame.setTitle("TicTacToe");
 		frame.setLayout(new BorderLayout());
 		frame.setIconImage(icon.getImage());
 		frame.getContentPane().setBackground(Color.lightGray);
+		frame.setMinimumSize(new Dimension(600,715));
+		
+		frame.setSize(600,715);
+		System.out.println(frame.getSize());
 		frame.setVisible(true);
 		
 		// Text and icon in header
@@ -124,7 +130,8 @@ public class TicTacToe implements ActionListener{
 		
 		colors.setLayout(new GridLayout(3, 2, 8, 8));
 		colors.setBackground(new Color(58, 58, 60));
-
+		colors.setBorder(new EmptyBorder(10, 10, 10, 0));
+		
 		addColorButtons();
 		
 		header.setLayout(new BorderLayout());
@@ -318,7 +325,8 @@ public class TicTacToe implements ActionListener{
 			stopBot = true;
 			
 			for(int i=0; i<9; i++) {
-				AllGameButtons[i].setEnabled(false);
+				if(AllGameButtons[i].getText()=="")
+				AllGameButtons[i].setText(" ");
 			}
 			
 			//greenEnd();
@@ -330,7 +338,8 @@ public class TicTacToe implements ActionListener{
 			playersTurn = true;
 
 			for(int i=0; i<9; i++) {
-				AllGameButtons[i].setEnabled(false);
+				if(AllGameButtons[i].getText()=="")
+				AllGameButtons[i].setText(" ");
 			}
 			//greenEnd();
 			//stopGame = true;
@@ -932,6 +941,7 @@ public class TicTacToe implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		
 		if(blockReset) {
 			
 			if(e.getSource()==ColorButtons[0]) {
@@ -983,13 +993,12 @@ public class TicTacToe implements ActionListener{
 		
 		if(playersTurn) {
 			
-			if(e.getSource()==AllGameButtons[0]) {
+			if(e.getSource()==AllGameButtons[0] && AllGameButtons[0].getText()=="") {
 
 				
 					System.out.println("Button 1 Player");
-					UIManager.getDefaults().put("Button.disabledText", PlayerColor);
+					AllGameButtons[0].setForeground(PlayerColor);
 					AllGameButtons[0].setText(PlayerSymbol);
-					AllGameButtons[0].setEnabled(false);
 
 					blockReset = false;
 					
@@ -998,13 +1007,12 @@ public class TicTacToe implements ActionListener{
 						label.setText("Bots Turn");
 					}
 			}
-			else if(e.getSource()==AllGameButtons[1]) {
+			else if(e.getSource()==AllGameButtons[1] && AllGameButtons[1].getText()=="") {
 				
 				
 					System.out.println("Button 2 Player");
-					UIManager.getDefaults().put("Button.disabledText", PlayerColor);
+					AllGameButtons[1].setForeground(PlayerColor);
 					AllGameButtons[1].setText(PlayerSymbol);
-					AllGameButtons[1].setEnabled(false);
 
 					blockReset = false;
 					
@@ -1013,13 +1021,12 @@ public class TicTacToe implements ActionListener{
 						label.setText("Bots Turn");
 					}
 			}
-			else if(e.getSource()==AllGameButtons[2]) {
+			else if(e.getSource()==AllGameButtons[2] && AllGameButtons[2].getText()=="") {
 				
 				
 					System.out.println("Button 3 Player");
-					UIManager.getDefaults().put("Button.disabledText", PlayerColor);
+					AllGameButtons[2].setForeground(PlayerColor);
 					AllGameButtons[2].setText(PlayerSymbol);
-					AllGameButtons[2].setEnabled(false);
 
 					blockReset = false;
 					
@@ -1028,13 +1035,12 @@ public class TicTacToe implements ActionListener{
 						label.setText("Bots Turn");
 					}
 			}		
-			else if(e.getSource()==AllGameButtons[3]) {
+			else if(e.getSource()==AllGameButtons[3] && AllGameButtons[3].getText()=="") {
 				
 				
 					System.out.println("Button 4 Player");
-					UIManager.getDefaults().put("Button.disabledText", PlayerColor);
+					AllGameButtons[3].setForeground(PlayerColor);
 					AllGameButtons[3].setText(PlayerSymbol);
-					AllGameButtons[3].setEnabled(false);
 
 					blockReset = false;
 					
@@ -1043,13 +1049,12 @@ public class TicTacToe implements ActionListener{
 						label.setText("Bots Turn");
 					}
 				}
-			else if(e.getSource()==AllGameButtons[4]) {
+			else if(e.getSource()==AllGameButtons[4] && AllGameButtons[4].getText()=="") {
 				
 				
 					System.out.println("Button 5 Player");
-					UIManager.getDefaults().put("Button.disabledText", PlayerColor);
+					AllGameButtons[4].setForeground(PlayerColor);
 					AllGameButtons[4].setText(PlayerSymbol);
-					AllGameButtons[4].setEnabled(false);
 
 					blockReset = false;
 					
@@ -1058,13 +1063,12 @@ public class TicTacToe implements ActionListener{
 						label.setText("Bots Turn");
 					}
 			}
-			else if(e.getSource()==AllGameButtons[5]) {
+			else if(e.getSource()==AllGameButtons[5] && AllGameButtons[5].getText()=="") {
 				
 				
 					System.out.println("Button 6 Player");
-					UIManager.getDefaults().put("Button.disabledText", PlayerColor);
+					AllGameButtons[5].setForeground(PlayerColor);
 					AllGameButtons[5].setText(PlayerSymbol);
-					AllGameButtons[5].setEnabled(false);
 
 					blockReset = false;
 					
@@ -1073,13 +1077,12 @@ public class TicTacToe implements ActionListener{
 						label.setText("Bots Turn");
 					}
 			}
-			else if(e.getSource()==AllGameButtons[6]) {
+			else if(e.getSource()==AllGameButtons[6] && AllGameButtons[6].getText()=="") {
 				
 				
 					System.out.println("Button 7 Player");
-					UIManager.getDefaults().put("Button.disabledText", PlayerColor);
+					AllGameButtons[6].setForeground(PlayerColor);
 					AllGameButtons[6].setText(PlayerSymbol);
-					AllGameButtons[6].setEnabled(false);
 
 					blockReset = false;
 					
@@ -1088,13 +1091,12 @@ public class TicTacToe implements ActionListener{
 						label.setText("Bots Turn");
 					}
 			}
-			else if(e.getSource()==AllGameButtons[7]) {
+			else if(e.getSource()==AllGameButtons[7] && AllGameButtons[7].getText()=="") {
 				
 				
 					System.out.println("Button 8 Player");
-					UIManager.getDefaults().put("Button.disabledText", PlayerColor);
+					AllGameButtons[7].setForeground(PlayerColor);
 					AllGameButtons[7].setText(PlayerSymbol);
-					AllGameButtons[7].setEnabled(false);
 					
 					blockReset = false;
 					
@@ -1103,13 +1105,12 @@ public class TicTacToe implements ActionListener{
 						label.setText("Bots Turn");
 					}
 			}
-			else if(e.getSource()==AllGameButtons[8]) {
+			else if(e.getSource()==AllGameButtons[8] && AllGameButtons[8].getText()=="") {
 				
 				
 					System.out.println("Button 9 Player");
-					UIManager.getDefaults().put("Button.disabledText", PlayerColor);
+					AllGameButtons[8].setForeground(PlayerColor);
 					AllGameButtons[8].setText(PlayerSymbol);
-					AllGameButtons[8].setEnabled(false);
 
 					blockReset = false;
 					
@@ -1122,9 +1123,6 @@ public class TicTacToe implements ActionListener{
 			win();
 
 			
-				
-			
-			//botAI();
 			/*
 			System.out.println(press1);
 			System.out.println(press2);
@@ -1141,83 +1139,74 @@ public class TicTacToe implements ActionListener{
 			
 			//UIManager.getDefaults().put("Button.disabledText", BotColor);
 			
-			if(press1) {
+			if(press1 && AllGameButtons[0].getText() == "") {
 					System.out.println("Button 1 Bot");
-					UIManager.getDefaults().put("Button.disabledText", BotColor);
+					AllGameButtons[0].setForeground(BotColor);
 					AllGameButtons[0].setText(BotSymbol);
-					AllGameButtons[0].setEnabled(false);
 					label.setText("Your Turn");
 					playersTurn = true;	
 					press1 = false;
 			}
-			else if(press2) {
+			else if(press2 && AllGameButtons[1].getText() == "") {
 					System.out.println("Button 2 Bot");
-					UIManager.getDefaults().put("Button.disabledText", BotColor);
+					AllGameButtons[1].setForeground(BotColor);
 					AllGameButtons[1].setText(BotSymbol);
-					AllGameButtons[1].setEnabled(false);
 					label.setText("Your Turn");
 					playersTurn = true;
 					press2 = false;
 			}
-			else if(press3) {
+			else if(press3 && AllGameButtons[2].getText() == "") {
 					System.out.println("Button 3 Bot");
-					UIManager.getDefaults().put("Button.disabledText", BotColor);
+					AllGameButtons[2].setForeground(BotColor);
 					AllGameButtons[2].setText(BotSymbol);
-					AllGameButtons[2].setEnabled(false);
 					label.setText("Your Turn");
 					playersTurn = true;
 					press3 = false;
 			}		
-			else if(press4) {
+			else if(press4 && AllGameButtons[3].getText() == "") {
 					System.out.println("Button 4 Bot");
-					UIManager.getDefaults().put("Button.disabledText", BotColor);
+					AllGameButtons[3].setForeground(BotColor);
 					AllGameButtons[3].setText(BotSymbol);
-					AllGameButtons[3].setEnabled(false);
 					label.setText("Your Turn");
 					playersTurn = true;
 					press4 = false;
 			}
-			else if(press5) {
+			else if(press5 && AllGameButtons[4].getText() == "") {
 					System.out.println("Button 5 Bot");
-					UIManager.getDefaults().put("Button.disabledText", BotColor);
+					AllGameButtons[4].setForeground(BotColor);
 					AllGameButtons[4].setText(BotSymbol);
-					AllGameButtons[4].setEnabled(false);
 					label.setText("Your Turn");
 					playersTurn = true;
 					press5 = false;
 			}
-			else if(press6) {
+			else if(press6 && AllGameButtons[5].getText() == "") {
 					System.out.println("Button 6 Bot");
-					UIManager.getDefaults().put("Button.disabledText", BotColor);
+					AllGameButtons[5].setForeground(BotColor);
 					AllGameButtons[5].setText(BotSymbol);
-					AllGameButtons[5].setEnabled(false);
 					label.setText("Your Turn");
 					playersTurn = true;
 					press6 = false;
 			}
-			else if(press7) {
+			else if(press7 && AllGameButtons[6].getText() == "") {
 					System.out.println("Button 7 Bot");
-					UIManager.getDefaults().put("Button.disabledText", BotColor);
+					AllGameButtons[6].setForeground(BotColor);
 					AllGameButtons[6].setText(BotSymbol);
-					AllGameButtons[6].setEnabled(false);
 					label.setText("Your Turn");
 					playersTurn = true;
 					press7 = false;
 			}
-			else if(press8) {
+			else if(press8 && AllGameButtons[7].getText() == "") {
 					System.out.println("Button 8 Bot");
-					UIManager.getDefaults().put("Button.disabledText", BotColor);
+					AllGameButtons[7].setForeground(BotColor);
 					AllGameButtons[7].setText(BotSymbol);
-					AllGameButtons[7].setEnabled(false);
 					label.setText("Your Turn");
 					playersTurn = true;
 					press8 = false;
 			}
-			else if(press9) {
+			else if(press9 && AllGameButtons[8].getText() == "") {
 					System.out.println("Button 9 Bot");
-					UIManager.getDefaults().put("Button.disabledText", BotColor);
+					AllGameButtons[8].setForeground(BotColor);
 					AllGameButtons[8].setText(BotSymbol);
-					AllGameButtons[8].setEnabled(false);
 					label.setText("Your Turn");
 					playersTurn = true;
 					press9 = false;
@@ -1225,7 +1214,7 @@ public class TicTacToe implements ActionListener{
 	
 			fillArray();
 			win();
-			//botAI();
+			
 			//System.out.println(winner);
 			
 
