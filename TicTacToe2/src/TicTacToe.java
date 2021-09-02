@@ -44,6 +44,8 @@ public class TicTacToe implements ActionListener{
 	String defaultLabelPlayer = "Your Turn";
 	String defaultLabelBot = "Bot's Turn";
 	
+	String temporaryLabel;
+	
 	String TurnLabel1 = defaultLabelPlayer;
 	String TurnLabel2 = defaultLabelBot;
 	
@@ -118,6 +120,8 @@ public class TicTacToe implements ActionListener{
 	boolean ExtremeMode = false;
 	boolean localCoop = false;
 	
+	boolean switchedMode = false;
+	
 	boolean press1 = false;
 	boolean press2 = false;
 	boolean press3 = false;
@@ -161,17 +165,27 @@ public class TicTacToe implements ActionListener{
 		}	*/
 
 		
-			while(!gameOver && !localCoop) {
-				if(!playersTurn) {
+			while(!gameOver) {
+				if(!playersTurn && !localCoop) {
 				//System.out.println(winner);
 					if(EasyMode) {
-						System.out.println("You chose easy!");
+						//System.out.println("You chose easy!");
 						botEasyAI();
 					}
 					else if(MediumMode) {
-						System.out.println("You chose medium!");
+						//System.out.println("You chose medium!");
 						botMediumAI();
 				}
+					else if(HardMode) {
+						//System.out.println("You chose hard!");
+						botHardAI();
+					}
+					else if(ExtremeMode) {
+						//System.out.println("You chose extreme!");
+						botHardAI();
+						BotExtreme();
+						
+					}
 				}
 				else {
 					System.out.print("");
@@ -1807,6 +1821,619 @@ else {
 
 	}
 	
+private void botHardAI() {
+			
+		setReiheSpalteDiagonale();
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		if(BotSymbol == "X") {
+			
+			//-----------------------------GEWINNEN-------------------------------------
+			if(Reihe1==20 || Reihe2==20 || Reihe3==20 || Spalte1==20 || Spalte2==20 || Spalte3==20 || Diagonal1==20 || Diagonal2 == 20) {
+				//Reihen
+				if(Reihe1 == 20) {
+					System.out.println("R1 20, kann gewinnen");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[1].getText() == "") {
+						press2 = true;
+					}			
+					else if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+				}
+				if(Reihe2 == 20) {
+					System.out.println("R2 20, kann gewinnen");
+					if(AllGameButtons[3].getText() == "") {
+						press4 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[5].getText() == "") {
+						press6 = true;
+					}
+				}
+				if(Reihe3 == 20) {
+					System.out.println("R3 20, kann gewinnen");
+					if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+					else if(AllGameButtons[7].getText() == "") {
+						press8 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}
+				
+				//Spalten
+				if(Spalte1 == 20) {
+					System.out.println("S1 20, kann gewinnen");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[3].getText() == "") {
+						press4 = true;
+					}			
+					else if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+				}
+				if(Spalte2 == 20) {
+					System.out.println("S2 20, kann gewinnen");
+					if(AllGameButtons[1].getText() == "") {
+						press2 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[7].getText() == "") {
+						press8 = true;
+					}
+				}
+				if(Spalte3 == 20) {
+					System.out.println("S3 20, kann gewinnen");
+					if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+					else if(AllGameButtons[5].getText() == "") {
+						press6 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}
+				
+				//Diagonalen
+				if(Diagonal1 == 20) {
+					System.out.println("D1 20, kann gewinnen");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}		
+				if(Diagonal2 == 20) {
+					System.out.println("D2 20, kann gewinnen");
+					if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+				}
+	
+					}
+			
+			else {
+				//-----------------------------Verteidigen-------------------------------------
+				//Reihen
+				if(Reihe1 == 2) {
+					System.out.println("R1 2, kann verlieren");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[1].getText() == "") {
+						press2 = true;
+					}			
+					else if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+				}
+				if(Reihe2 == 2) {
+					System.out.println("R2 2, kann verlieren");
+					if(AllGameButtons[3].getText() == "") {
+						press4 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[5].getText() == "") {
+						press6 = true;
+					}
+				}
+				if(Reihe3 == 2) {
+					System.out.println("R3 2, kann verlieren");
+					if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+					else if(AllGameButtons[7].getText() == "") {
+						press8 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}
+				
+				//Spalten
+				if(Spalte1 == 2) {
+					System.out.println("S1 2, kann verlieren");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[3].getText() == "") {
+						press4 = true;
+					}			
+					else if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+				}
+				if(Spalte2 == 2) {
+					System.out.println("S2 2, kann verlieren");
+					if(AllGameButtons[1].getText() == "") {
+						press2 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[7].getText() == "") {
+						press8 = true;
+					}
+				}
+				if(Spalte3 == 2) {
+					System.out.println("S2 2, kann verlieren");
+					if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+					else if(AllGameButtons[5].getText() == "") {
+						press6 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}
+				
+				//Diagonalen
+				if(Diagonal1 == 2) {
+					System.out.println("D1 2, kann verlieren");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}		
+				if(Diagonal2 == 2) {
+					System.out.println("D2 2, kann verlieren");
+					if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+				}
+				//-----------------------------Strategie-------------------------------------
+				
+				
+				
+				
+				
+				
+				//-----------------------------Irgendwas-------------------------------------
+				if(press1==false && press2==false && press3==false && press4==false && press5==false && press6==false && press7==false && press8==false && press9==false) {
+					int randomNumber = (int)(Math.random() * 9);
+					boolean noPress = true;
+					
+					while(noPress) {
+						if(AllGameButtons[randomNumber].getText()=="") {
+							
+							if(randomNumber == 0) {
+								press1 = true;
+							}
+							else if(randomNumber == 1) {
+								press2 = true;
+							}
+							else if(randomNumber == 2) {
+								press3 = true;
+							}
+							else if(randomNumber == 3) {
+								press4 = true;
+							}
+							else if(randomNumber == 4) {
+								press5 = true;
+							}
+							else if(randomNumber == 5) {
+								press6 = true;
+							}
+							else if(randomNumber == 6) {
+								press7 = true;
+							}
+							else if(randomNumber == 7) {
+								press8 = true;
+							}
+							else if(randomNumber == 8) {
+								press9 = true;
+							}
+							noPress = false;
+							System.out.println("Irgendwas drücken");
+						}
+						else {
+							randomNumber = (int)(Math.random() * 9);
+						}
+					}
+				}
+			}			
+		}	
+				
+			else {
+				if(Reihe1==2 || Reihe2==2 || Reihe3==2 || Spalte1==2 || Spalte2==2 || Spalte3==2 || Diagonal1==2 || Diagonal2 == 2) {
+				//-----------------------------Gewinnen-------------------------------------
+				//Reihen
+				if(Reihe1 == 2) {
+					System.out.println("R1 2, kann gewinnen");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[1].getText() == "") {
+						press2 = true;
+					}			
+					else if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+				}
+				if(Reihe2 == 2) {
+					System.out.println("R2 2, kann gewinnen");
+					if(AllGameButtons[3].getText() == "") {
+						press4 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[5].getText() == "") {
+						press6 = true;
+					}
+				}
+				if(Reihe3 == 2) {
+					System.out.println("R3 2, kann gewinnen");
+					if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+					else if(AllGameButtons[7].getText() == "") {
+						press8 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}
+				
+				//Spalten
+				if(Spalte1 == 2) {
+					System.out.println("S1 2, kann gewinnen");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[3].getText() == "") {
+						press4 = true;
+					}			
+					else if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+				}
+				if(Spalte2 == 2) {
+					System.out.println("S2 2, kann gewinnen");
+					if(AllGameButtons[1].getText() == "") {
+						press2 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[7].getText() == "") {
+						press8 = true;
+					}
+				}
+				if(Spalte3 == 2) {
+					System.out.println("S3 2, kann gewinnen");
+					if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+					else if(AllGameButtons[5].getText() == "") {
+						press6 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}
+				
+				//Diagonalen
+				if(Diagonal1 == 2) {
+					System.out.println("D1 2, kann gewinnen");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}		
+				if(Diagonal2 == 2) {
+					System.out.println("D2 2, kann gewinnen");
+					if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+				}
+				}	
+				else {	
+				//-----------------------------Verteidigen-------------------------------------	
+				//Reihen
+				if(Reihe1 == 20) {
+					System.out.println("R1 20, kann verlieren");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[1].getText() == "") {
+						press2 = true;
+					}			
+					else if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+				}
+				if(Reihe2 == 20) {
+					System.out.println("R2 20, kann verlieren");
+					if(AllGameButtons[3].getText() == "") {
+						press4 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[5].getText() == "") {
+						press6 = true;
+					}
+				}
+				if(Reihe3 == 20) {
+					System.out.println("R3 20, kann verlieren");
+					if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+					else if(AllGameButtons[7].getText() == "") {
+						press8 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}
+				
+				//Spalten
+				if(Spalte1 == 20) {
+					System.out.println("S1 20, kann verlieren");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[3].getText() == "") {
+						press4 = true;
+					}			
+					else if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+				}
+				if(Spalte2 == 20) {
+					System.out.println("S2 20, kann verlieren");
+					if(AllGameButtons[1].getText() == "") {
+						press2 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[7].getText() == "") {
+						press8 = true;
+					}
+				}
+				if(Spalte3 == 20) {
+					System.out.println("S3 20, kann verlieren");
+					if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+					else if(AllGameButtons[5].getText() == "") {
+						press6 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}
+				
+				//Diagonalen
+				if(Diagonal1 == 20) {
+					System.out.println("D1 20, kann verlieren");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}		
+				if(Diagonal2 == 20) {
+					System.out.println("D2 20, kann verlieren");
+					if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+				}
+				
+				//-----------------------------Strategie-------------------------------------
+				
+				
+				
+				
+				
+				
+				
+				//-----------------------------Irgendwas-------------------------------------
+				if(press1==false && press2==false && press3==false && press4==false && press5==false && press6==false && press7==false && press8==false && press9==false) {
+					int randomNumber = (int)(Math.random() * 9);
+					boolean noPress = true;
+					
+					while(noPress) {
+						if(AllGameButtons[randomNumber].getText()=="") {
+							
+							if(randomNumber == 0) {
+								press1 = true;
+							}
+							else if(randomNumber == 1) {
+								press2 = true;
+							}
+							else if(randomNumber == 2) {
+								press3 = true;
+							}
+							else if(randomNumber == 3) {
+								press4 = true;
+							}
+							else if(randomNumber == 4) {
+								press5 = true;
+							}
+							else if(randomNumber == 5) {
+								press6 = true;
+							}
+							else if(randomNumber == 6) {
+								press7 = true;
+							}
+							else if(randomNumber == 7) {
+								press8 = true;
+							}
+							else if(randomNumber == 8) {
+								press9 = true;
+							}
+							noPress = false;
+							System.out.println("Irgendwas drücken");
+						}
+						else {
+							randomNumber = (int)(Math.random() * 9);
+						}
+					}
+				}
+			}
+		}
+			
+			
+			
+			if(press1==true) {
+				AllGameButtons[0].doClick();
+			}
+			else if(press2==true) {
+				AllGameButtons[1].doClick();
+			}
+			else if(press3==true) {
+				AllGameButtons[2].doClick();
+			}
+			else if(press4==true) {
+				AllGameButtons[3].doClick();
+			}
+			else if(press5==true) {
+				AllGameButtons[4].doClick();
+			}
+			else if(press6==true) {
+				AllGameButtons[5].doClick();
+			}
+			else if(press7==true) {
+				AllGameButtons[6].doClick();
+			}
+			else if(press8==true) {
+				AllGameButtons[7].doClick();
+			}
+			else if(press9==true) {
+				AllGameButtons[8].doClick();
+			}
+
+	}
+	
+	private void BotExtreme() {
+		
+		// Zeit / Timer hinzufügen
+		
+	}
+	
+	private void restartGame() {
+		
+		press1=false;
+		press2=false;
+		press3=false;
+		press4=false;
+		press5=false;
+		press6=false;
+		press7=false;
+		press8=false;
+		press9=false;
+		
+		getSymbol();
+		firstTurn();
+
+		
+		for(int i=0; i<10; i++) {
+			winner.set(i, 0);
+		}
+		for(int r = 0; r<9; r++) {
+			AllGameButtons[r].setBackground(ButtonColor);
+			AllGameButtons[r].setText("");
+			AllGameButtons[r].setEnabled(true);
+		}
+		//setReiheSpalteDiagonale();
+		//System.out.println(Alle);
+		//System.out.println(winner);
+		blockReset = true;
+		stopBot = false;
+		gameOver = false;
+
+		
+	}
+	
+	private void getTemporaryLabel() {
+		
+		temporaryLabel = label.getText();
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -1844,8 +2471,11 @@ else {
 			localCoop = false;
 			EasyMode = true;
 			
+			switchedMode = true;
+			
 			TurnLabel1 = defaultLabelPlayer;
 			TurnLabel2 = defaultLabelBot;
+			
 			
 		}
 		if(e.getSource()==medium) {
@@ -1856,8 +2486,11 @@ else {
 			localCoop = false;
 			MediumMode = true;
 			
+			switchedMode = true;
+			
 			TurnLabel1 = defaultLabelPlayer;
 			TurnLabel2 = defaultLabelBot;
+			
 			
 		}
 		if(e.getSource()==hard) {
@@ -1868,9 +2501,11 @@ else {
 			localCoop = false;
 			HardMode = true;
 			
+			switchedMode = true;
+			
 			TurnLabel1 = defaultLabelPlayer;
 			TurnLabel2 = defaultLabelBot;
-			
+						
 		}
 		if(e.getSource()==extreme) {
 			
@@ -1880,8 +2515,11 @@ else {
 			localCoop = false;
 			ExtremeMode = true;
 			
+			switchedMode = true;
+			
 			TurnLabel1 = defaultLabelPlayer;
 			TurnLabel2 = defaultLabelBot;
+			
 			
 		}
 		if(e.getSource()==Player) {
@@ -1891,7 +2529,9 @@ else {
 			HardMode = false;
 			ExtremeMode = false;
 			localCoop = true;
-			System.out.println("localCoop");
+			
+			switchedMode = true;
+			//System.out.println("localCoop");
 			
 			TurnLabel1 = "Player 1's turn";
 			TurnLabel2 = "Player 2's turn";
@@ -1900,10 +2540,12 @@ else {
 		
 		
 		
-		
-		if(e.getSource()==MenuButton && playersTurn) {
+		if(e.getSource()==MenuButton  && label.getText() != defaultLabelBot) {
 				
+			
+			
 			if(inMenu){
+				
 				System.out.println("close Menu");
 				if(draw) {
 					label.setText(Draw);
@@ -1918,7 +2560,14 @@ else {
 					Owin = false;
 				}
 				else {
-				label.setText(TurnLabel1);
+				
+				label.setText(temporaryLabel);
+				}
+				
+				if(switchedMode) {
+					
+					restartGame();
+					
 				}
 				
 				CardLayout CardLayout1 = (CardLayout)(gameMenuCard.getLayout());
@@ -1926,8 +2575,12 @@ else {
 				//frame.remove(menuPanel);
 				//MainPanel.setVisible(true);
 				inMenu = false;
+				switchedMode = false;
 			}
 			else {
+	
+				getTemporaryLabel();
+				
 				System.out.println("open Menu");
 				if(label.getText()==Draw) {
 					draw = true;
@@ -1958,35 +2611,8 @@ else {
 		if(e.getSource()==restartButton && !blockReset && !inMenu) {
 			//System.out.println("restart");
 			
-			press1=false;
-			press2=false;
-			press3=false;
-			press4=false;
-			press5=false;
-			press6=false;
-			press7=false;
-			press8=false;
-			press9=false;
+			restartGame();
 			
-			
-			getSymbol();
-			firstTurn();
-			
-			for(int i=0; i<10; i++) {
-				winner.set(i, 0);
-			}
-			for(int r = 0; r<9; r++) {
-				AllGameButtons[r].setBackground(ButtonColor);
-				AllGameButtons[r].setText("");
-				AllGameButtons[r].setEnabled(true);
-			}
-			//setReiheSpalteDiagonale();
-			//System.out.println(Alle);
-			//System.out.println(winner);
-
-			blockReset = true;
-			stopBot = false;
-			gameOver = false;
 		}
 		
 		
