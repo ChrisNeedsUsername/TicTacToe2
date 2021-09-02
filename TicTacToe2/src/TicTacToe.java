@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 
@@ -34,8 +35,8 @@ public class TicTacToe implements ActionListener{
 	
 	
 	JPanel menuPanel = new JPanel(new GridLayout(6, 1, 5, 5));
-	JPanel menuLine1 = new JPanel(new GridLayout(1, 4, 10, 10));
-	JPanel menuLine2 = new JPanel(new GridLayout(1, 6, 10, 10));
+	JPanel menuLine1 = new JPanel(new GridLayout(1, 4, 2, 0));
+	JPanel menuLine2 = new JPanel(new GridLayout(1, 6, 2, 0));
 	JPanel menuLine3 = new JPanel(new GridLayout(1, 4, 10, 10));
 	JPanel menuLine4 = new JPanel(new GridLayout(1, 4, 10, 10));
 	JPanel menuLine5 = new JPanel(new GridLayout(1, 4, 10, 10));
@@ -73,14 +74,14 @@ public class TicTacToe implements ActionListener{
 	Color MenuColor = Color.darkGray;
 	Color MenuFontColor = Color.lightGray;
 	//Line 1
-	JLabel Line1 = new JLabel("Design:");
+	JLabel Line1 = new JLabel("Design:", SwingConstants.CENTER);
 	JRadioButton light = new JRadioButton("light");
 	JRadioButton dark = new JRadioButton("dark");
 	JRadioButton custom = new JRadioButton("custom");
 	ButtonGroup group1 = new ButtonGroup();
 	
 	//Line 2
-	JLabel Line2 = new JLabel("Difficulty:");
+	JLabel Line2 = new JLabel("Difficulty:", SwingConstants.CENTER);
 	JRadioButton easy = new JRadioButton("easy");
 	JRadioButton medium = new JRadioButton("medium");
 	JRadioButton hard = new JRadioButton("hard");
@@ -152,7 +153,7 @@ public class TicTacToe implements ActionListener{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//frame.setSize(600, 715);
 		frame.setResizable(true);
-		frame.setLocation(840, 400);
+		
 		frame.setTitle("TicTacToe");
 		frame.setLayout(new BorderLayout());
 		frame.setIconImage(icon.getImage());
@@ -161,6 +162,7 @@ public class TicTacToe implements ActionListener{
 		
 		frame.setSize(700,815);
 		//System.out.println(frame.getSize());
+		frame.setLocationRelativeTo(null); 
 		frame.setVisible(true);
 		
 		// Text and icon in header
@@ -231,18 +233,21 @@ public class TicTacToe implements ActionListener{
 		light.setFont(myFont);
 		light.setFocusable(false);
 		light.addActionListener(this);
+		light.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		dark.setForeground(MenuFontColor);
 		dark.setBackground(MenuColor);
 		dark.setFont(myFont);
 		dark.setFocusable(false);
 		dark.addActionListener(this);
+		dark.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		custom.setForeground(MenuFontColor);
 		custom.setBackground(MenuColor);
 		custom.setFont(myFont);
 		custom.setFocusable(false);
 		custom.addActionListener(this);
+		custom.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		menuLine1.add(Line1);
 		menuLine1.add(light);
@@ -263,30 +268,35 @@ public class TicTacToe implements ActionListener{
 		easy.setFont(myFont);
 		easy.setFocusable(false);
 		easy.addActionListener(this);
+		easy.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		medium.setForeground(MenuFontColor);
 		medium.setBackground(MenuColor);
 		medium.setFont(myFont);
 		medium.setFocusable(false);
 		medium.addActionListener(this);
+		medium.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		hard.setForeground(MenuFontColor);
 		hard.setBackground(MenuColor);
 		hard.setFont(myFont);
 		hard.setFocusable(false);
 		hard.addActionListener(this);
+		hard.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		extreme.setForeground(MenuFontColor);
 		extreme.setBackground(MenuColor);
 		extreme.setFont(myFont);
 		extreme.setFocusable(false);
 		extreme.addActionListener(this);
+		extreme.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		Player.setForeground(MenuFontColor);
 		Player.setBackground(MenuColor);
 		Player.setFont(myFont);
 		Player.setFocusable(false);
 		Player.addActionListener(this);
+		Player.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		menuLine2.add(Line2);
 		menuLine2.add(easy);
@@ -520,8 +530,8 @@ public class TicTacToe implements ActionListener{
 		}
 		else if(Reihe1 == 30 || Reihe2 == 30 || Reihe3 == 30 || Spalte1 == 30 || Spalte2 == 30 || Spalte3 == 30 || Diagonal1 == 30 || Diagonal2 == 30) {
 			label.setText(Xwon);
-			stopBot = true;
 			playersTurn = true;
+			stopBot = true;
 
 			for(int i=0; i<9; i++) {
 				if(AllGameButtons[i].getText()=="")
@@ -531,8 +541,8 @@ public class TicTacToe implements ActionListener{
 			//stopGame = true;
 		}
 		else if(Alle == 45 || Alle == 54) {
-			stopBot = true;
 			playersTurn = true;
+			stopBot = true;
 
 			label.setText(Draw);
 			//stopGame = true;
@@ -542,6 +552,9 @@ public class TicTacToe implements ActionListener{
 	
 	
 	private void botAI() {
+		
+
+		
 		
 		setReiheSpalteDiagonale();
 
@@ -1211,6 +1224,17 @@ public class TicTacToe implements ActionListener{
 		if(e.getSource()==restartButton && blockReset == false && !inMenu) {
 			//System.out.println("restart");
 			
+			press1=false;
+			press2=false;
+			press3=false;
+			press4=false;
+			press5=false;
+			press6=false;
+			press7=false;
+			press8=false;
+			press9=false;
+			
+			
 			getSymbol();
 			firstTurn();
 			
@@ -1232,7 +1256,7 @@ public class TicTacToe implements ActionListener{
 		
 		
 		
-		if(playersTurn) {
+		if(playersTurn && label.getText() =="Your Turn") {
 			
 			if(e.getSource()==AllGameButtons[0] && AllGameButtons[0].getText()=="") {
 
@@ -1243,12 +1267,14 @@ public class TicTacToe implements ActionListener{
 
 					blockReset = false;
 					
+					fillArray();
+					win();
+					
 					if(stopBot == false) {
-						playersTurn = false;
 						label.setText("Bots Turn");
+						playersTurn = false;	
 						
-						fillArray();
-						win();
+
 					}
 			}
 			else if(e.getSource()==AllGameButtons[1] && AllGameButtons[1].getText()=="") {
@@ -1260,12 +1286,13 @@ public class TicTacToe implements ActionListener{
 
 					blockReset = false;
 					
+					fillArray();
+					win();
+					
 					if(stopBot == false) {
-						playersTurn = false;
 						label.setText("Bots Turn");
-						
-						fillArray();
-						win();
+						playersTurn = false;	
+
 					}
 			}
 			else if(e.getSource()==AllGameButtons[2] && AllGameButtons[2].getText()=="") {
@@ -1277,12 +1304,14 @@ public class TicTacToe implements ActionListener{
 
 					blockReset = false;
 					
+					fillArray();
+					win();
+					
 					if(stopBot == false) {
-						playersTurn = false;
 						label.setText("Bots Turn");
+						playersTurn = false;	
 						
-						fillArray();
-						win();
+	
 					}
 			}		
 			else if(e.getSource()==AllGameButtons[3] && AllGameButtons[3].getText()=="") {
@@ -1294,12 +1323,13 @@ public class TicTacToe implements ActionListener{
 
 					blockReset = false;
 					
+					fillArray();
+					win();
+					
 					if(stopBot == false) {
-						playersTurn = false;
 						label.setText("Bots Turn");
+						playersTurn = false;	
 						
-						fillArray();
-						win();
 					}
 				}
 			else if(e.getSource()==AllGameButtons[4] && AllGameButtons[4].getText()=="") {
@@ -1311,12 +1341,13 @@ public class TicTacToe implements ActionListener{
 
 					blockReset = false;
 					
+					fillArray();
+					win();
+					
 					if(stopBot == false) {
-						playersTurn = false;
 						label.setText("Bots Turn");
-						
-						fillArray();
-						win();
+						playersTurn = false;	
+
 					}
 			}
 			else if(e.getSource()==AllGameButtons[5] && AllGameButtons[5].getText()=="") {
@@ -1328,12 +1359,13 @@ public class TicTacToe implements ActionListener{
 
 					blockReset = false;
 					
+					fillArray();
+					win();
+					
 					if(stopBot == false) {
-						playersTurn = false;
 						label.setText("Bots Turn");
-						
-						fillArray();
-						win();
+						playersTurn = false;	
+
 					}
 			}
 			else if(e.getSource()==AllGameButtons[6] && AllGameButtons[6].getText()=="") {
@@ -1345,12 +1377,13 @@ public class TicTacToe implements ActionListener{
 
 					blockReset = false;
 					
+					fillArray();
+					win();
+					
 					if(stopBot == false) {
-						playersTurn = false;
 						label.setText("Bots Turn");
-						
-						fillArray();
-						win();
+						playersTurn = false;	
+
 					}
 			}
 			else if(e.getSource()==AllGameButtons[7] && AllGameButtons[7].getText()=="") {
@@ -1362,12 +1395,13 @@ public class TicTacToe implements ActionListener{
 					
 					blockReset = false;
 					
+					fillArray();
+					win();
+					
 					if(stopBot == false) {
-						playersTurn = false;
 						label.setText("Bots Turn");
-						
-						fillArray();
-						win();
+						playersTurn = false;	
+
 					}
 			}
 			else if(e.getSource()==AllGameButtons[8] && AllGameButtons[8].getText()=="") {
@@ -1379,12 +1413,14 @@ public class TicTacToe implements ActionListener{
 
 					blockReset = false;
 					
+					fillArray();
+					win();
+					
 					if(stopBot == false) {
-						playersTurn = false;
 						label.setText("Bots Turn");
+						playersTurn = false;	
 						
-						fillArray();
-						win();
+
 					}
 			}
 
@@ -1402,7 +1438,7 @@ public class TicTacToe implements ActionListener{
 			System.out.println(press9);
 			*/
 		}
-		else {
+		else if(!playersTurn && label.getText()=="Bots Turn"){
 			
 			//UIManager.getDefaults().put("Button.disabledText", BotColor);
 			
@@ -1410,91 +1446,101 @@ public class TicTacToe implements ActionListener{
 					System.out.println("Button 1 Bot");
 					AllGameButtons[0].setForeground(BotColor);
 					AllGameButtons[0].setText(BotSymbol);
+					
+					fillArray();
+					win();
 					label.setText("Your Turn");
 					playersTurn = true;	
 					press1 = false;
-					fillArray();
-					win();
+
 			}
 			else if(press2 && AllGameButtons[1].getText() == "") {
 					System.out.println("Button 2 Bot");
 					AllGameButtons[1].setForeground(BotColor);
 					AllGameButtons[1].setText(BotSymbol);
+					fillArray();
+					win();
 					label.setText("Your Turn");
 					playersTurn = true;
 					press2 = false;
-					fillArray();
-					win();
+
 			}
 			else if(press3 && AllGameButtons[2].getText() == "") {
 					System.out.println("Button 3 Bot");
 					AllGameButtons[2].setForeground(BotColor);
 					AllGameButtons[2].setText(BotSymbol);
+					fillArray();
+					win();
 					label.setText("Your Turn");
 					playersTurn = true;
 					press3 = false;
-					fillArray();
-					win();
+
 			}		
 			else if(press4 && AllGameButtons[3].getText() == "") {
 					System.out.println("Button 4 Bot");
 					AllGameButtons[3].setForeground(BotColor);
 					AllGameButtons[3].setText(BotSymbol);
+					fillArray();
+					win();
 					label.setText("Your Turn");
 					playersTurn = true;
 					press4 = false;
-					fillArray();
-					win();
+
 			}
 			else if(press5 && AllGameButtons[4].getText() == "") {
 					System.out.println("Button 5 Bot");
 					AllGameButtons[4].setForeground(BotColor);
 					AllGameButtons[4].setText(BotSymbol);
+					fillArray();
+					win();
 					label.setText("Your Turn");
 					playersTurn = true;
 					press5 = false;
-					fillArray();
-					win();
+
 			}
 			else if(press6 && AllGameButtons[5].getText() == "") {
 					System.out.println("Button 6 Bot");
 					AllGameButtons[5].setForeground(BotColor);
 					AllGameButtons[5].setText(BotSymbol);
+					fillArray();
+					win();
 					label.setText("Your Turn");
 					playersTurn = true;
 					press6 = false;
-					fillArray();
-					win();
+
 			}
 			else if(press7 && AllGameButtons[6].getText() == "") {
 					System.out.println("Button 7 Bot");
 					AllGameButtons[6].setForeground(BotColor);
 					AllGameButtons[6].setText(BotSymbol);
+					fillArray();
+					win();
 					label.setText("Your Turn");
 					playersTurn = true;
 					press7 = false;
-					fillArray();
-					win();
+
 			}
 			else if(press8 && AllGameButtons[7].getText() == "") {
 					System.out.println("Button 8 Bot");
 					AllGameButtons[7].setForeground(BotColor);
 					AllGameButtons[7].setText(BotSymbol);
+					fillArray();
+					win();
 					label.setText("Your Turn");
 					playersTurn = true;
 					press8 = false;
-					fillArray();
-					win();
+
 			}
 			else if(press9 && AllGameButtons[8].getText() == "") {
 					System.out.println("Button 9 Bot");
 					AllGameButtons[8].setForeground(BotColor);
 					AllGameButtons[8].setText(BotSymbol);
+					fillArray();
+					win();
 					label.setText("Your Turn");
 					playersTurn = true;
 					press9 = false;
-					fillArray();
-					win();
+;
 			}
 	
 
