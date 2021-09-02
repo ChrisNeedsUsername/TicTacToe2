@@ -33,15 +33,6 @@ public class TicTacToe implements ActionListener{
 	//JPanel with CardLayout to switch between overlapping panels -> MainPanel, menuPanel
 	JPanel gameMenuCard = new JPanel(new CardLayout());
 	
-	
-	JPanel menuPanel = new JPanel(new GridLayout(6, 1, 5, 5));
-	JPanel menuLine1 = new JPanel(new GridLayout(1, 4, 2, 0));
-	JPanel menuLine2 = new JPanel(new GridLayout(1, 6, 2, 0));
-	JPanel menuLine3 = new JPanel(new GridLayout(1, 4, 10, 10));
-	JPanel menuLine4 = new JPanel(new GridLayout(1, 4, 10, 10));
-	JPanel menuLine5 = new JPanel(new GridLayout(1, 4, 10, 10));
-	JPanel menuLine6 = new JPanel(new GridLayout(1, 1, 10, 10));
-	
 	JLabel label = new JLabel();
 	ImageIcon icon = new ImageIcon("icon.png");
 	ImageIcon MenuIcon = new ImageIcon("Zahnrad.png");
@@ -50,16 +41,24 @@ public class TicTacToe implements ActionListener{
 	String Xwon = "X won";
 	String Owon = "O won";
 	
+	String TurnLabel1 = "Your Turn";
+	String TurnLabel2 = "Bots Turn";
+	
 	boolean draw = false;
 	boolean Xwin = false;
 	boolean Owin = false;
 	
 	boolean playersTurn;
-	Color PlayerColor = Color.green;
-	String PlayerSymbol;
 	
-	Color BotColor = Color.red;
+	//Symbols
+	String PlayerSymbol;
 	String BotSymbol;
+	
+	//Colors
+	Color PlayerColor = Color.green;
+	Color BotColor = Color.red;
+	Color ButtonColor = Color.DARK_GRAY;
+	Color GridColor = Color.LIGHT_GRAY;
 	
 	static Color colorTL = Color.blue;
 	static Color colorML = Color.green;
@@ -68,9 +67,18 @@ public class TicTacToe implements ActionListener{
 	static Color colorMR = Color.magenta;
 	static Color colorBR = Color.yellow;
 	
+	//Font
 	Font myFont = new Font("Kalam", Font.CENTER_BASELINE, 25);
 	
 	//Menu
+	JPanel menuPanel = new JPanel(new GridLayout(6, 1, 5, 5));
+	JPanel menuLine1 = new JPanel(new GridLayout(1, 4, 2, 0));
+	JPanel menuLine2 = new JPanel(new GridLayout(1, 6, 2, 0));
+	JPanel menuLine3 = new JPanel(new GridLayout(1, 4, 10, 10));
+	JPanel menuLine4 = new JPanel(new GridLayout(1, 4, 10, 10));
+	JPanel menuLine5 = new JPanel(new GridLayout(3, 8, 20, 10));
+	JPanel menuLine6 = new JPanel(new GridLayout(1, 2, 10, 10));	
+	
 	Color MenuColor = Color.darkGray;
 	Color MenuFontColor = Color.lightGray;
 	//Line 1
@@ -89,6 +97,13 @@ public class TicTacToe implements ActionListener{
 	JRadioButton Player = new JRadioButton("Player");
 	ButtonGroup group2 = new ButtonGroup();
 	
+	//Line 3
+	JLabel Playercolor = new JLabel("Playercolor", SwingConstants.CENTER);
+	JLabel Botcolor = new JLabel("Botcolor", SwingConstants.CENTER);
+	JLabel Buttoncolor = new JLabel("Buttoncolor", SwingConstants.CENTER);
+	JLabel Gridcolor = new JLabel("Gridcolor", SwingConstants.CENTER);
+	
+	boolean localCoop = false;
 	boolean gameOver = false;
 	boolean inMenu = false;
 	
@@ -134,16 +149,18 @@ public class TicTacToe implements ActionListener{
 			}
 		}	*/
 
-		while(!gameOver) {
-			if(!playersTurn) {
-			//System.out.println(winner);
-			botAI();
-			}
-			else {
-				System.out.print("");
+		if(!localCoop) {
+			while(!gameOver) {
+				if(!playersTurn) {
+				//System.out.println(winner);
+				//botMediumAI();
+				botEasyAI();
+				}
+				else {
+					System.out.print("");
+				}
 			}
 		}
-
 	}
 
 	//------------FRAME HEADER ICON--------------
@@ -157,7 +174,7 @@ public class TicTacToe implements ActionListener{
 		frame.setTitle("TicTacToe");
 		frame.setLayout(new BorderLayout());
 		frame.setIconImage(icon.getImage());
-		frame.getContentPane().setBackground(Color.lightGray);
+		frame.getContentPane().setBackground(GridColor);
 		frame.setMinimumSize(new Dimension(700,815));
 		
 		frame.setSize(700,815);
@@ -198,7 +215,7 @@ public class TicTacToe implements ActionListener{
 		addGameButtons();
 		//MainPanel.setBounds(0, 100, 600, 615);
 		MainPanel.setLayout(new GridLayout(3, 3, 8, 8));
-		MainPanel.setBackground(Color.lightGray);
+		MainPanel.setBackground(GridColor);
 		//frame.add(MainPanel);
 	
 		//Menu
@@ -209,7 +226,7 @@ public class TicTacToe implements ActionListener{
 		
 		menuLine1.setBackground(MenuColor);//MenuColor);
 		menuLine2.setBackground(MenuColor);//MenuColor);
-		menuLine3.setBackground(Color.black);//MenuColor);
+		menuLine3.setBackground(MenuColor);//MenuColor);
 		menuLine4.setBackground(Color.green);//MenuColor);
 		menuLine5.setBackground(Color.yellow);//(MenuColor);
 		menuLine6.setBackground(Color.magenta);//(MenuColor);
@@ -305,6 +322,23 @@ public class TicTacToe implements ActionListener{
 		menuLine2.add(extreme);
 		menuLine2.add(Player);
 
+		//Line 3
+		Playercolor.setForeground(MenuFontColor);
+		Playercolor.setFont(myFont);
+		
+		Botcolor.setForeground(MenuFontColor);
+		Botcolor.setFont(myFont);
+		
+		Buttoncolor.setForeground(MenuFontColor);
+		Buttoncolor.setFont(myFont);
+		
+		Gridcolor.setForeground(MenuFontColor);
+		Gridcolor.setFont(myFont);
+		
+		menuLine3.add(Playercolor);
+		menuLine3.add(Botcolor);
+		menuLine3.add(Buttoncolor);
+		menuLine3.add(Gridcolor);
 		
 		
 		topRight.setLayout(new GridLayout(2, 1, 8, 8));
@@ -339,7 +373,7 @@ public class TicTacToe implements ActionListener{
 			AllGameButtons[i].setFont(new Font("Kalam", Font.CENTER_BASELINE, 100));
 			AllGameButtons[i].setFocusable(false);
 			AllGameButtons[i].addActionListener(this);
-			AllGameButtons[i].setBackground(Color.DARK_GRAY);
+			AllGameButtons[i].setBackground(ButtonColor);
 			AllGameButtons[i].setBorderPainted(false);
 			MainPanel.add(AllGameButtons[i]);
 			}	
@@ -377,11 +411,11 @@ public class TicTacToe implements ActionListener{
 		
 		if(r == 1) {
 			playersTurn = true;
-			label.setText("Your Turn");
+			label.setText(TurnLabel1);
 		}
 		else {
 			playersTurn = false;
-			label.setText("Bots Turn");
+			label.setText(TurnLabel2);
 		}
 		
 	}
@@ -550,8 +584,577 @@ public class TicTacToe implements ActionListener{
 		
 	}
 	
+	private void botEasyAI() {
+		
+		int defChance =  (int)(Math.random() * 2); // 1 = 100%, 2 = 50%, 3 = 33%, 4 = 25%, ...
+		
+		boolean WinOrDef;
+		
+		int WoD = (int)(Math.random() * 3); // win/def: 2 = 50/50, 3 = 66/33, 4 = 75/25
+		if(WoD == 0) {
+			//Def
+			WinOrDef = false;
+		}
+		else {
+			//Win
+			WinOrDef = true;
+		}
+		
+		setReiheSpalteDiagonale();
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+if(BotSymbol == "X") {
+			
+			//-----------------------------GEWINNEN-------------------------------------
+			if((Reihe1==20 || Reihe2==20 || Reihe3==20 || Spalte1==20 || Spalte2==20 || Spalte3==20 || Diagonal1==20 || Diagonal2 == 20 && WinOrDef)) {
+				//Reihen
+				if(Reihe1 == 20) {
+					System.out.println("R1 20, kann gewinnen");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[1].getText() == "") {
+						press2 = true;
+					}			
+					else if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+				}
+				if(Reihe2 == 20) {
+					System.out.println("R2 20, kann gewinnen");
+					if(AllGameButtons[3].getText() == "") {
+						press4 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[5].getText() == "") {
+						press6 = true;
+					}
+				}
+				if(Reihe3 == 20) {
+					System.out.println("R3 20, kann gewinnen");
+					if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+					else if(AllGameButtons[7].getText() == "") {
+						press8 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}
+				
+				//Spalten
+				if(Spalte1 == 20) {
+					System.out.println("S1 20, kann gewinnen");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[3].getText() == "") {
+						press4 = true;
+					}			
+					else if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+				}
+				if(Spalte2 == 20) {
+					System.out.println("S2 20, kann gewinnen");
+					if(AllGameButtons[1].getText() == "") {
+						press2 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[7].getText() == "") {
+						press8 = true;
+					}
+				}
+				if(Spalte3 == 20) {
+					System.out.println("S3 20, kann gewinnen");
+					if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+					else if(AllGameButtons[5].getText() == "") {
+						press6 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}
+				
+				//Diagonalen
+				if(Diagonal1 == 20) {
+					System.out.println("D1 20, kann gewinnen");
+					if(AllGameButtons[0].getText() == "") {
+						press1 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[8].getText() == "") {
+						press9 = true;
+					}
+				}		
+				if(Diagonal2 == 20) {
+					System.out.println("D2 20, kann gewinnen");
+					if(AllGameButtons[2].getText() == "") {
+						press3 = true;
+					}
+					else if(AllGameButtons[4].getText() == "") {
+						press5 = true;
+					}			
+					else if(AllGameButtons[6].getText() == "") {
+						press7 = true;
+					}
+				}
 	
-	private void botAI() {
+			}
+			else {
+				if(defChance == 0 || !WinOrDef) {
+					//-----------------------------Verteidigen-------------------------------------
+					//Reihen
+					if(Reihe1 == 2) {
+						System.out.println("R1 2, kann verlieren");
+						if(AllGameButtons[0].getText() == "") {
+							press1 = true;
+						}
+						else if(AllGameButtons[1].getText() == "") {
+							press2 = true;
+						}			
+						else if(AllGameButtons[2].getText() == "") {
+							press3 = true;
+						}
+					}
+					if(Reihe2 == 2) {
+						System.out.println("R2 2, kann verlieren");
+						if(AllGameButtons[3].getText() == "") {
+							press4 = true;
+						}
+						else if(AllGameButtons[4].getText() == "") {
+							press5 = true;
+						}			
+						else if(AllGameButtons[5].getText() == "") {
+							press6 = true;
+						}
+					}
+					if(Reihe3 == 2) {
+						System.out.println("R3 2, kann verlieren");
+						if(AllGameButtons[6].getText() == "") {
+							press7 = true;
+						}
+						else if(AllGameButtons[7].getText() == "") {
+							press8 = true;
+						}			
+						else if(AllGameButtons[8].getText() == "") {
+							press9 = true;
+						}
+					}
+					
+					//Spalten
+					if(Spalte1 == 2) {
+						System.out.println("S1 2, kann verlieren");
+						if(AllGameButtons[0].getText() == "") {
+							press1 = true;
+						}
+						else if(AllGameButtons[3].getText() == "") {
+							press4 = true;
+						}			
+						else if(AllGameButtons[6].getText() == "") {
+							press7 = true;
+						}
+					}
+					if(Spalte2 == 2) {
+						System.out.println("S2 2, kann verlieren");
+						if(AllGameButtons[1].getText() == "") {
+							press2 = true;
+						}
+						else if(AllGameButtons[4].getText() == "") {
+							press5 = true;
+						}			
+						else if(AllGameButtons[7].getText() == "") {
+							press8 = true;
+						}
+					}
+					if(Spalte3 == 2) {
+						System.out.println("S2 2, kann verlieren");
+						if(AllGameButtons[2].getText() == "") {
+							press3 = true;
+						}
+						else if(AllGameButtons[5].getText() == "") {
+							press6 = true;
+						}			
+						else if(AllGameButtons[8].getText() == "") {
+							press9 = true;
+						}
+					}
+					
+					//Diagonalen
+					if(Diagonal1 == 2) {
+						System.out.println("D1 2, kann verlieren");
+						if(AllGameButtons[0].getText() == "") {
+							press1 = true;
+						}
+						else if(AllGameButtons[4].getText() == "") {
+							press5 = true;
+						}			
+						else if(AllGameButtons[8].getText() == "") {
+							press9 = true;
+						}
+					}		
+					if(Diagonal2 == 2) {
+						System.out.println("D2 2, kann verlieren");
+						if(AllGameButtons[2].getText() == "") {
+							press3 = true;
+						}
+						else if(AllGameButtons[4].getText() == "") {
+							press5 = true;
+						}			
+						else if(AllGameButtons[6].getText() == "") {
+							press7 = true;
+						}
+					}
+				}
+			//-----------------------------Irgendwas-------------------------------------
+			if(press1==false && press2==false && press3==false && press4==false && press5==false && press6==false && press7==false && press8==false && press9==false) {
+				int randomNumber = (int)(Math.random() * 9);
+				boolean noPress = true;
+				
+				while(noPress) {
+					if(AllGameButtons[randomNumber].getText()=="") {
+						
+						if(randomNumber == 0) {
+							press1 = true;
+						}
+						else if(randomNumber == 1) {
+							press2 = true;
+						}
+						else if(randomNumber == 2) {
+							press3 = true;
+						}
+						else if(randomNumber == 3) {
+							press4 = true;
+						}
+						else if(randomNumber == 4) {
+							press5 = true;
+						}
+						else if(randomNumber == 5) {
+							press6 = true;
+						}
+						else if(randomNumber == 6) {
+							press7 = true;
+						}
+						else if(randomNumber == 7) {
+							press8 = true;
+						}
+						else if(randomNumber == 8) {
+							press9 = true;
+						}
+						noPress = false;
+						System.out.println("Irgendwas drücken");
+					}
+					else {
+						randomNumber = (int)(Math.random() * 9);
+					}
+				}
+			}
+		}
+	}
+else {
+	if((Reihe1==2 || Reihe2==2 || Reihe3==2 || Spalte1==2 || Spalte2==2 || Spalte3==2 || Diagonal1==2 || Diagonal2 == 2) && WinOrDef) {
+	//-----------------------------Gewinnen-------------------------------------
+	//Reihen
+	if(Reihe1 == 2) {
+		System.out.println("R1 2, kann gewinnen");
+		if(AllGameButtons[0].getText() == "") {
+			press1 = true;
+		}
+		else if(AllGameButtons[1].getText() == "") {
+			press2 = true;
+		}			
+		else if(AllGameButtons[2].getText() == "") {
+			press3 = true;
+		}
+	}
+	if(Reihe2 == 2) {
+		System.out.println("R2 2, kann gewinnen");
+		if(AllGameButtons[3].getText() == "") {
+			press4 = true;
+		}
+		else if(AllGameButtons[4].getText() == "") {
+			press5 = true;
+		}			
+		else if(AllGameButtons[5].getText() == "") {
+			press6 = true;
+		}
+	}
+	if(Reihe3 == 2) {
+		System.out.println("R3 2, kann gewinnen");
+		if(AllGameButtons[6].getText() == "") {
+			press7 = true;
+		}
+		else if(AllGameButtons[7].getText() == "") {
+			press8 = true;
+		}			
+		else if(AllGameButtons[8].getText() == "") {
+			press9 = true;
+		}
+	}
+	
+	//Spalten
+	if(Spalte1 == 2) {
+		System.out.println("S1 2, kann gewinnen");
+		if(AllGameButtons[0].getText() == "") {
+			press1 = true;
+		}
+		else if(AllGameButtons[3].getText() == "") {
+			press4 = true;
+		}			
+		else if(AllGameButtons[6].getText() == "") {
+			press7 = true;
+		}
+	}
+	if(Spalte2 == 2) {
+		System.out.println("S2 2, kann gewinnen");
+		if(AllGameButtons[1].getText() == "") {
+			press2 = true;
+		}
+		else if(AllGameButtons[4].getText() == "") {
+			press5 = true;
+		}			
+		else if(AllGameButtons[7].getText() == "") {
+			press8 = true;
+		}
+	}
+	if(Spalte3 == 2) {
+		System.out.println("S3 2, kann gewinnen");
+		if(AllGameButtons[2].getText() == "") {
+			press3 = true;
+		}
+		else if(AllGameButtons[5].getText() == "") {
+			press6 = true;
+		}			
+		else if(AllGameButtons[8].getText() == "") {
+			press9 = true;
+		}
+	}
+	
+	//Diagonalen
+	if(Diagonal1 == 2) {
+		System.out.println("D1 2, kann gewinnen");
+		if(AllGameButtons[0].getText() == "") {
+			press1 = true;
+		}
+		else if(AllGameButtons[4].getText() == "") {
+			press5 = true;
+		}			
+		else if(AllGameButtons[8].getText() == "") {
+			press9 = true;
+		}
+	}		
+	if(Diagonal2 == 2) {
+		System.out.println("D2 2, kann gewinnen");
+		if(AllGameButtons[2].getText() == "") {
+			press3 = true;
+		}
+		else if(AllGameButtons[4].getText() == "") {
+			press5 = true;
+		}			
+		else if(AllGameButtons[6].getText() == "") {
+			press7 = true;
+		}
+	}
+	}	
+	else {	
+		if(defChance == 0 || !WinOrDef) {
+	//-----------------------------Verteidigen-------------------------------------	
+	//Reihen
+		if(Reihe1 == 20) {
+			System.out.println("R1 20, kann verlieren");
+			if(AllGameButtons[0].getText() == "") {
+				press1 = true;
+			}
+			else if(AllGameButtons[1].getText() == "") {
+				press2 = true;
+			}			
+			else if(AllGameButtons[2].getText() == "") {
+				press3 = true;
+			}
+		}
+		if(Reihe2 == 20) {
+			System.out.println("R2 20, kann verlieren");
+			if(AllGameButtons[3].getText() == "") {
+				press4 = true;
+			}
+			else if(AllGameButtons[4].getText() == "") {
+				press5 = true;
+			}			
+			else if(AllGameButtons[5].getText() == "") {
+				press6 = true;
+			}
+		}
+		if(Reihe3 == 20) {
+			System.out.println("R3 20, kann verlieren");
+			if(AllGameButtons[6].getText() == "") {
+				press7 = true;
+			}
+			else if(AllGameButtons[7].getText() == "") {
+				press8 = true;
+			}			
+			else if(AllGameButtons[8].getText() == "") {
+				press9 = true;
+			}
+		}
+		
+		//Spalten
+		if(Spalte1 == 20) {
+			System.out.println("S1 20, kann verlieren");
+			if(AllGameButtons[0].getText() == "") {
+				press1 = true;
+			}
+			else if(AllGameButtons[3].getText() == "") {
+				press4 = true;
+			}			
+			else if(AllGameButtons[6].getText() == "") {
+				press7 = true;
+			}
+		}
+		if(Spalte2 == 20) {
+			System.out.println("S2 20, kann verlieren");
+			if(AllGameButtons[1].getText() == "") {
+				press2 = true;
+			}
+			else if(AllGameButtons[4].getText() == "") {
+				press5 = true;
+			}			
+			else if(AllGameButtons[7].getText() == "") {
+				press8 = true;
+			}
+		}
+		if(Spalte3 == 20) {
+			System.out.println("S3 20, kann verlieren");
+			if(AllGameButtons[2].getText() == "") {
+				press3 = true;
+			}
+			else if(AllGameButtons[5].getText() == "") {
+				press6 = true;
+			}			
+			else if(AllGameButtons[8].getText() == "") {
+				press9 = true;
+			}
+		}
+		
+		//Diagonalen
+		if(Diagonal1 == 20) {
+			System.out.println("D1 20, kann verlieren");
+			if(AllGameButtons[0].getText() == "") {
+				press1 = true;
+			}
+			else if(AllGameButtons[4].getText() == "") {
+				press5 = true;
+			}			
+			else if(AllGameButtons[8].getText() == "") {
+				press9 = true;
+			}
+		}		
+		if(Diagonal2 == 20) {
+			System.out.println("D2 20, kann verlieren");
+			if(AllGameButtons[2].getText() == "") {
+				press3 = true;
+			}
+			else if(AllGameButtons[4].getText() == "") {
+				press5 = true;
+			}			
+			else if(AllGameButtons[6].getText() == "") {
+				press7 = true;
+			}
+		}
+	}
+	//-----------------------------Irgendwas-------------------------------------
+	if(press1==false && press2==false && press3==false && press4==false && press5==false && press6==false && press7==false && press8==false && press9==false) {
+		int randomNumber = (int)(Math.random() * 9);
+		boolean noPress = true;
+		
+		while(noPress) {
+			if(AllGameButtons[randomNumber].getText()=="") {
+				
+				if(randomNumber == 0) {
+					press1 = true;
+				}
+				else if(randomNumber == 1) {
+					press2 = true;
+				}
+				else if(randomNumber == 2) {
+					press3 = true;
+				}
+				else if(randomNumber == 3) {
+					press4 = true;
+				}
+				else if(randomNumber == 4) {
+					press5 = true;
+				}
+				else if(randomNumber == 5) {
+					press6 = true;
+				}
+				else if(randomNumber == 6) {
+					press7 = true;
+				}
+				else if(randomNumber == 7) {
+					press8 = true;
+				}
+				else if(randomNumber == 8) {
+					press9 = true;
+				}
+				noPress = false;
+				System.out.println("Irgendwas drücken");
+			}
+			else {
+				randomNumber = (int)(Math.random() * 9);
+				}
+			}
+		}
+	}
+}
+	
+	
+	
+	if(press1==true) {
+		AllGameButtons[0].doClick();
+	}
+	else if(press2==true) {
+		AllGameButtons[1].doClick();
+	}
+	else if(press3==true) {
+		AllGameButtons[2].doClick();
+	}
+	else if(press4==true) {
+		AllGameButtons[3].doClick();
+	}
+	else if(press5==true) {
+		AllGameButtons[4].doClick();
+	}
+	else if(press6==true) {
+		AllGameButtons[5].doClick();
+	}
+	else if(press7==true) {
+		AllGameButtons[6].doClick();
+	}
+	else if(press8==true) {
+		AllGameButtons[7].doClick();
+	}
+	else if(press9==true) {
+		AllGameButtons[8].doClick();
+	}
+
+	}
+	
+		
+	private void botMediumAI() {
 		
 
 		
@@ -1184,7 +1787,7 @@ public class TicTacToe implements ActionListener{
 					Owin = false;
 				}
 				else {
-				label.setText("Your Turn");
+				label.setText(TurnLabel1);
 				}
 				
 				CardLayout CardLayout1 = (CardLayout)(gameMenuCard.getLayout());
@@ -1256,7 +1859,7 @@ public class TicTacToe implements ActionListener{
 		
 		
 		
-		if(playersTurn && label.getText() =="Your Turn") {
+		if(playersTurn && label.getText() ==TurnLabel1) {
 			
 			if(e.getSource()==AllGameButtons[0] && AllGameButtons[0].getText()=="") {
 
@@ -1271,7 +1874,7 @@ public class TicTacToe implements ActionListener{
 					win();
 					
 					if(stopBot == false) {
-						label.setText("Bots Turn");
+						label.setText(TurnLabel2);
 						playersTurn = false;	
 						
 
@@ -1290,7 +1893,7 @@ public class TicTacToe implements ActionListener{
 					win();
 					
 					if(stopBot == false) {
-						label.setText("Bots Turn");
+						label.setText(TurnLabel2);
 						playersTurn = false;	
 
 					}
@@ -1308,7 +1911,7 @@ public class TicTacToe implements ActionListener{
 					win();
 					
 					if(stopBot == false) {
-						label.setText("Bots Turn");
+						label.setText(TurnLabel2);
 						playersTurn = false;	
 						
 	
@@ -1327,7 +1930,7 @@ public class TicTacToe implements ActionListener{
 					win();
 					
 					if(stopBot == false) {
-						label.setText("Bots Turn");
+						label.setText(TurnLabel2);
 						playersTurn = false;	
 						
 					}
@@ -1345,7 +1948,7 @@ public class TicTacToe implements ActionListener{
 					win();
 					
 					if(stopBot == false) {
-						label.setText("Bots Turn");
+						label.setText(TurnLabel2);
 						playersTurn = false;	
 
 					}
@@ -1363,7 +1966,7 @@ public class TicTacToe implements ActionListener{
 					win();
 					
 					if(stopBot == false) {
-						label.setText("Bots Turn");
+						label.setText(TurnLabel2);
 						playersTurn = false;	
 
 					}
@@ -1381,7 +1984,7 @@ public class TicTacToe implements ActionListener{
 					win();
 					
 					if(stopBot == false) {
-						label.setText("Bots Turn");
+						label.setText(TurnLabel2);
 						playersTurn = false;	
 
 					}
@@ -1399,7 +2002,7 @@ public class TicTacToe implements ActionListener{
 					win();
 					
 					if(stopBot == false) {
-						label.setText("Bots Turn");
+						label.setText(TurnLabel2);
 						playersTurn = false;	
 
 					}
@@ -1417,7 +2020,7 @@ public class TicTacToe implements ActionListener{
 					win();
 					
 					if(stopBot == false) {
-						label.setText("Bots Turn");
+						label.setText(TurnLabel2);
 						playersTurn = false;	
 						
 
@@ -1438,106 +2041,106 @@ public class TicTacToe implements ActionListener{
 			System.out.println(press9);
 			*/
 		}
-		else if(!playersTurn && label.getText()=="Bots Turn"){
+		else if(!playersTurn && label.getText()==TurnLabel2){
 			
 			//UIManager.getDefaults().put("Button.disabledText", BotColor);
 			
-			if(press1 && AllGameButtons[0].getText() == "") {
+			if((press1 && AllGameButtons[0].getText() == "") || localCoop && e.getSource()==AllGameButtons[0]) {
 					System.out.println("Button 1 Bot");
 					AllGameButtons[0].setForeground(BotColor);
 					AllGameButtons[0].setText(BotSymbol);
 					
 					fillArray();
 					win();
-					label.setText("Your Turn");
+					label.setText(TurnLabel1);
 					playersTurn = true;	
 					press1 = false;
 
 			}
-			else if(press2 && AllGameButtons[1].getText() == "") {
+			else if((press2 && AllGameButtons[1].getText() == "") || localCoop && e.getSource()==AllGameButtons[1]) {
 					System.out.println("Button 2 Bot");
 					AllGameButtons[1].setForeground(BotColor);
 					AllGameButtons[1].setText(BotSymbol);
 					fillArray();
 					win();
-					label.setText("Your Turn");
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press2 = false;
 
 			}
-			else if(press3 && AllGameButtons[2].getText() == "") {
+			else if((press3 && AllGameButtons[2].getText() == "") || localCoop && e.getSource()==AllGameButtons[2]) {
 					System.out.println("Button 3 Bot");
 					AllGameButtons[2].setForeground(BotColor);
 					AllGameButtons[2].setText(BotSymbol);
 					fillArray();
 					win();
-					label.setText("Your Turn");
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press3 = false;
 
 			}		
-			else if(press4 && AllGameButtons[3].getText() == "") {
+			else if((press4 && AllGameButtons[3].getText() == "") || localCoop && e.getSource()==AllGameButtons[3]) {
 					System.out.println("Button 4 Bot");
 					AllGameButtons[3].setForeground(BotColor);
 					AllGameButtons[3].setText(BotSymbol);
 					fillArray();
 					win();
-					label.setText("Your Turn");
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press4 = false;
 
 			}
-			else if(press5 && AllGameButtons[4].getText() == "") {
+			else if((press5 && AllGameButtons[4].getText() == "") || localCoop && e.getSource()==AllGameButtons[4]) {
 					System.out.println("Button 5 Bot");
 					AllGameButtons[4].setForeground(BotColor);
 					AllGameButtons[4].setText(BotSymbol);
 					fillArray();
 					win();
-					label.setText("Your Turn");
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press5 = false;
 
 			}
-			else if(press6 && AllGameButtons[5].getText() == "") {
+			else if((press6 && AllGameButtons[5].getText() == "") || localCoop && e.getSource()==AllGameButtons[5]) {
 					System.out.println("Button 6 Bot");
 					AllGameButtons[5].setForeground(BotColor);
 					AllGameButtons[5].setText(BotSymbol);
 					fillArray();
 					win();
-					label.setText("Your Turn");
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press6 = false;
 
 			}
-			else if(press7 && AllGameButtons[6].getText() == "") {
+			else if((press7 && AllGameButtons[6].getText() == "") || localCoop && e.getSource()==AllGameButtons[6]) {
 					System.out.println("Button 7 Bot");
 					AllGameButtons[6].setForeground(BotColor);
 					AllGameButtons[6].setText(BotSymbol);
 					fillArray();
 					win();
-					label.setText("Your Turn");
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press7 = false;
 
 			}
-			else if(press8 && AllGameButtons[7].getText() == "") {
+			else if((press8 && AllGameButtons[7].getText() == "") || localCoop && e.getSource()==AllGameButtons[7]) {
 					System.out.println("Button 8 Bot");
 					AllGameButtons[7].setForeground(BotColor);
 					AllGameButtons[7].setText(BotSymbol);
 					fillArray();
 					win();
-					label.setText("Your Turn");
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press8 = false;
 
 			}
-			else if(press9 && AllGameButtons[8].getText() == "") {
+			else if((press9 && AllGameButtons[8].getText() == "") || localCoop && e.getSource()==AllGameButtons[8]) {
 					System.out.println("Button 9 Bot");
 					AllGameButtons[8].setForeground(BotColor);
 					AllGameButtons[8].setText(BotSymbol);
 					fillArray();
 					win();
-					label.setText("Your Turn");
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press9 = false;
 ;
