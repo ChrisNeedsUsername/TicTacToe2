@@ -84,21 +84,21 @@ public class TicTacToe implements ActionListener{
 	JPanel menuLine3 = new JPanel(new GridLayout(1, 4, 10, 10));
 	JPanel menuLine4 = new JPanel(new GridLayout(1, 4, 10, 10));
 	JPanel menuLine5 = new JPanel(new GridLayout(3, 8, 20, 10));
-	JPanel menuLine6 = new JPanel(new GridLayout(1, 2, 10, 10));	
+	JPanel menuLine6 = new JPanel(new GridLayout(1, 1, 10, 10));	//Wenn Main Menu button 1,2,10,10
 	
 	Color MenuColor = Color.darkGray;
 	Color MenuFontColor = Color.lightGray;
 	//Line 1
 	JLabel Line1 = new JLabel("Design:", SwingConstants.CENTER);
 	JRadioButton light = new JRadioButton("light");
-	JRadioButton dark = new JRadioButton("dark");
+	JRadioButton dark = new JRadioButton("dark", true);
 	JRadioButton custom = new JRadioButton("custom");
 	ButtonGroup group1 = new ButtonGroup();
 	
 	//Line 2
 	JLabel Line2 = new JLabel("Difficulty:", SwingConstants.CENTER);
 	JRadioButton easy = new JRadioButton("easy");
-	JRadioButton medium = new JRadioButton("medium");
+	JRadioButton medium = new JRadioButton("medium", true);
 	JRadioButton hard = new JRadioButton("hard");
 	JRadioButton extreme = new JRadioButton("extreme");
 	JRadioButton Player = new JRadioButton("Player");
@@ -110,6 +110,10 @@ public class TicTacToe implements ActionListener{
 	JLabel Buttoncolor = new JLabel("Buttoncolor", SwingConstants.CENTER);
 	JLabel Gridcolor = new JLabel("Gridcolor", SwingConstants.CENTER);
 	
+	//Line 6
+	//JButton MainMenu = new JButton("Main Menu");
+	JButton QuitGame = new JButton("Quit Game");
+	 
 	
 	boolean gameOver = false;
 	boolean inMenu = false;
@@ -260,7 +264,7 @@ public class TicTacToe implements ActionListener{
 		menuLine3.setBackground(MenuColor);//MenuColor);
 		menuLine4.setBackground(Color.green);//MenuColor);
 		menuLine5.setBackground(Color.yellow);//(MenuColor);
-		menuLine6.setBackground(Color.magenta);//(MenuColor);
+		menuLine6.setBackground(MenuColor);//(MenuColor);
 		
 		
 		//CardLayout
@@ -282,6 +286,7 @@ public class TicTacToe implements ActionListener{
 		light.setFocusable(false);
 		light.addActionListener(this);
 		light.setHorizontalAlignment(SwingConstants.CENTER);
+		light.setBorderPainted(false);
 		
 		dark.setForeground(MenuFontColor);
 		dark.setBackground(MenuColor);
@@ -289,6 +294,7 @@ public class TicTacToe implements ActionListener{
 		dark.setFocusable(false);
 		dark.addActionListener(this);
 		dark.setHorizontalAlignment(SwingConstants.CENTER);
+		dark.setBorderPainted(false);
 		
 		custom.setForeground(MenuFontColor);
 		custom.setBackground(MenuColor);
@@ -296,6 +302,7 @@ public class TicTacToe implements ActionListener{
 		custom.setFocusable(false);
 		custom.addActionListener(this);
 		custom.setHorizontalAlignment(SwingConstants.CENTER);
+		custom.setBorderPainted(false);
 		
 		menuLine1.add(Line1);
 		menuLine1.add(light);
@@ -317,6 +324,7 @@ public class TicTacToe implements ActionListener{
 		easy.setFocusable(false);
 		easy.addActionListener(this);
 		easy.setHorizontalAlignment(SwingConstants.CENTER);
+		easy.setBorderPainted(false);
 		
 		medium.setForeground(MenuFontColor);
 		medium.setBackground(MenuColor);
@@ -324,6 +332,8 @@ public class TicTacToe implements ActionListener{
 		medium.setFocusable(false);
 		medium.addActionListener(this);
 		medium.setHorizontalAlignment(SwingConstants.CENTER);
+		medium.setBorderPainted(false);
+		
 		
 		hard.setForeground(MenuFontColor);
 		hard.setBackground(MenuColor);
@@ -331,6 +341,7 @@ public class TicTacToe implements ActionListener{
 		hard.setFocusable(false);
 		hard.addActionListener(this);
 		hard.setHorizontalAlignment(SwingConstants.CENTER);
+		hard.setBorderPainted(false);
 		
 		extreme.setForeground(MenuFontColor);
 		extreme.setBackground(MenuColor);
@@ -338,6 +349,7 @@ public class TicTacToe implements ActionListener{
 		extreme.setFocusable(false);
 		extreme.addActionListener(this);
 		extreme.setHorizontalAlignment(SwingConstants.CENTER);
+		extreme.setBorderPainted(false);
 		
 		Player.setForeground(MenuFontColor);
 		Player.setBackground(MenuColor);
@@ -345,6 +357,7 @@ public class TicTacToe implements ActionListener{
 		Player.setFocusable(false);
 		Player.addActionListener(this);
 		Player.setHorizontalAlignment(SwingConstants.CENTER);
+		Player.setBorderPainted(false);
 		
 		menuLine2.add(Line2);
 		menuLine2.add(easy);
@@ -370,6 +383,17 @@ public class TicTacToe implements ActionListener{
 		menuLine3.add(Botcolor);
 		menuLine3.add(Buttoncolor);
 		menuLine3.add(Gridcolor);
+		
+		//Line 6
+		QuitGame.setForeground(MenuFontColor);
+		QuitGame.setBackground(MenuColor);
+		QuitGame.setFont(myFont);
+		QuitGame.setFocusable(false);
+		QuitGame.addActionListener(this);
+		QuitGame.setHorizontalAlignment(SwingConstants.CENTER);
+		QuitGame.setBorderPainted(false);
+		
+		menuLine6.add(QuitGame);
 		
 		
 		topRight.setLayout(new GridLayout(2, 1, 8, 8));
@@ -2462,6 +2486,13 @@ private void botHardAI() {
 			
 			
 		}
+		
+		if(e.getSource()==QuitGame) {
+			
+			frame.dispose();
+			
+		}
+		
 		
 		if(e.getSource()==easy) {
 			
