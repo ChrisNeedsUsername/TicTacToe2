@@ -79,7 +79,14 @@ public class TicTacToe implements ActionListener{
 	JRadioButton custom = new JRadioButton("custom");
 	ButtonGroup group1 = new ButtonGroup();
 	
-	
+	//Line 2
+	JLabel Line2 = new JLabel("Difficulty:");
+	JRadioButton easy = new JRadioButton("easy");
+	JRadioButton medium = new JRadioButton("medium");
+	JRadioButton hard = new JRadioButton("hard");
+	JRadioButton extreme = new JRadioButton("extreme");
+	JRadioButton Player = new JRadioButton("Player");
+	ButtonGroup group2 = new ButtonGroup();
 	
 	boolean gameOver = false;
 	boolean inMenu = false;
@@ -199,7 +206,7 @@ public class TicTacToe implements ActionListener{
 		fillMenuPanel();
 		
 		menuLine1.setBackground(MenuColor);//MenuColor);
-		menuLine2.setBackground(Color.red);//MenuColor);
+		menuLine2.setBackground(MenuColor);//MenuColor);
 		menuLine3.setBackground(Color.black);//MenuColor);
 		menuLine4.setBackground(Color.green);//MenuColor);
 		menuLine5.setBackground(Color.yellow);//(MenuColor);
@@ -212,7 +219,7 @@ public class TicTacToe implements ActionListener{
 		gameMenuCard.add(menuPanel, "nameMenuPanel");
 		frame.add(gameMenuCard, BorderLayout.CENTER);
 		
-		//Line1
+		//Line 1
 		group1.add(light);
 		group1.add(dark);
 		group1.add(custom);
@@ -242,10 +249,52 @@ public class TicTacToe implements ActionListener{
 		menuLine1.add(dark);
 		menuLine1.add(custom);
 		
+		//Line 2
+		group2.add(easy);
+		group2.add(medium);
+		group2.add(hard);
+		group2.add(extreme);
+		group2.add(Player);
+		Line2.setForeground(MenuFontColor);
+		Line2.setFont(myFont);
 		
+		easy.setForeground(MenuFontColor);
+		easy.setBackground(MenuColor);
+		easy.setFont(myFont);
+		easy.setFocusable(false);
+		easy.addActionListener(this);
 		
+		medium.setForeground(MenuFontColor);
+		medium.setBackground(MenuColor);
+		medium.setFont(myFont);
+		medium.setFocusable(false);
+		medium.addActionListener(this);
 		
+		hard.setForeground(MenuFontColor);
+		hard.setBackground(MenuColor);
+		hard.setFont(myFont);
+		hard.setFocusable(false);
+		hard.addActionListener(this);
 		
+		extreme.setForeground(MenuFontColor);
+		extreme.setBackground(MenuColor);
+		extreme.setFont(myFont);
+		extreme.setFocusable(false);
+		extreme.addActionListener(this);
+		
+		Player.setForeground(MenuFontColor);
+		Player.setBackground(MenuColor);
+		Player.setFont(myFont);
+		Player.setFocusable(false);
+		Player.addActionListener(this);
+		
+		menuLine2.add(Line2);
+		menuLine2.add(easy);
+		menuLine2.add(medium);
+		menuLine2.add(hard);
+		menuLine2.add(extreme);
+		menuLine2.add(Player);
+
 		
 		
 		topRight.setLayout(new GridLayout(2, 1, 8, 8));
@@ -1159,7 +1208,7 @@ public class TicTacToe implements ActionListener{
 		}
 		
 		
-		if(e.getSource()==restartButton && blockReset == false) {
+		if(e.getSource()==restartButton && blockReset == false && !inMenu) {
 			//System.out.println("restart");
 			
 			getSymbol();
