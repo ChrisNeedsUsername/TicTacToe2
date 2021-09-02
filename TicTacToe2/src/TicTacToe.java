@@ -2803,7 +2803,7 @@ private void botHardAI() {
 			
 			//UIManager.getDefaults().put("Button.disabledText", BotColor);
 			
-			if((press1 && AllGameButtons[0].getText() == "") || localCoop && e.getSource()==AllGameButtons[0]) {
+			if((press1 && AllGameButtons[0].getText() == "") || localCoop && e.getSource()==AllGameButtons[0] && AllGameButtons[0].getText()=="") {
 					System.out.println("Button 1 Bot");
 					AllGameButtons[0].setForeground(BotColor);
 					AllGameButtons[0].setText(BotSymbol);
@@ -2816,7 +2816,7 @@ private void botHardAI() {
 					win();
 
 			}
-			else if((press2 && AllGameButtons[1].getText() == "") || localCoop && e.getSource()==AllGameButtons[1]) {
+			else if((press2 && AllGameButtons[1].getText() == "") || localCoop && e.getSource()==AllGameButtons[1] && AllGameButtons[1].getText()=="") {
 					System.out.println("Button 2 Bot");
 					AllGameButtons[1].setForeground(BotColor);
 					AllGameButtons[1].setText(BotSymbol);
@@ -2828,7 +2828,7 @@ private void botHardAI() {
 					win();
 
 			}
-			else if((press3 && AllGameButtons[2].getText() == "") || localCoop && e.getSource()==AllGameButtons[2]) {
+			else if((press3 && AllGameButtons[2].getText() == "") || localCoop && e.getSource()==AllGameButtons[2] && AllGameButtons[2].getText()=="") {
 					System.out.println("Button 3 Bot");
 					AllGameButtons[2].setForeground(BotColor);
 					AllGameButtons[2].setText(BotSymbol);
@@ -2840,7 +2840,7 @@ private void botHardAI() {
 					win();
 
 			}		
-			else if((press4 && AllGameButtons[3].getText() == "") || localCoop && e.getSource()==AllGameButtons[3]) {
+			else if((press4 && AllGameButtons[3].getText() == "") || localCoop && e.getSource()==AllGameButtons[3] && AllGameButtons[3].getText()=="") {
 					System.out.println("Button 4 Bot");
 					AllGameButtons[3].setForeground(BotColor);
 					AllGameButtons[3].setText(BotSymbol);
@@ -2851,7 +2851,7 @@ private void botHardAI() {
 					press4 = false;
 					win();
 			}
-			else if((press5 && AllGameButtons[4].getText() == "") || localCoop && e.getSource()==AllGameButtons[4]) {
+			else if((press5 && AllGameButtons[4].getText() == "") || localCoop && e.getSource()==AllGameButtons[4] && AllGameButtons[4].getText()=="") {
 					System.out.println("Button 5 Bot");
 					AllGameButtons[4].setForeground(BotColor);
 					AllGameButtons[4].setText(BotSymbol);
@@ -2863,7 +2863,7 @@ private void botHardAI() {
 					win();
 
 			}
-			else if((press6 && AllGameButtons[5].getText() == "") || localCoop && e.getSource()==AllGameButtons[5]) {
+			else if((press6 && AllGameButtons[5].getText() == "") || localCoop && e.getSource()==AllGameButtons[5] && AllGameButtons[5].getText()=="") {
 					System.out.println("Button 6 Bot");
 					AllGameButtons[5].setForeground(BotColor);
 					AllGameButtons[5].setText(BotSymbol);
@@ -2875,7 +2875,7 @@ private void botHardAI() {
 					win();
 
 			}
-			else if((press7 && AllGameButtons[6].getText() == "") || localCoop && e.getSource()==AllGameButtons[6]) {
+			else if((press7 && AllGameButtons[6].getText() == "") || localCoop && e.getSource()==AllGameButtons[6] && AllGameButtons[6].getText()=="") {
 					System.out.println("Button 7 Bot");
 					AllGameButtons[6].setForeground(BotColor);
 					AllGameButtons[6].setText(BotSymbol);
@@ -2887,7 +2887,7 @@ private void botHardAI() {
 					win();
 
 			}
-			else if((press8 && AllGameButtons[7].getText() == "") || localCoop && e.getSource()==AllGameButtons[7]) {
+			else if((press8 && AllGameButtons[7].getText() == "") || localCoop && e.getSource()==AllGameButtons[7] && AllGameButtons[7].getText()=="") {
 					System.out.println("Button 8 Bot");
 					AllGameButtons[7].setForeground(BotColor);
 					AllGameButtons[7].setText(BotSymbol);
@@ -2899,7 +2899,7 @@ private void botHardAI() {
 					win();
 
 			}
-			else if((press9 && AllGameButtons[8].getText() == "") || localCoop && e.getSource()==AllGameButtons[8]) {
+			else if((press9 && AllGameButtons[8].getText() == "") || localCoop && e.getSource()==AllGameButtons[8] && AllGameButtons[8].getText()=="") {
 					System.out.println("Button 9 Bot");
 					AllGameButtons[8].setForeground(BotColor);
 					AllGameButtons[8].setText(BotSymbol);
