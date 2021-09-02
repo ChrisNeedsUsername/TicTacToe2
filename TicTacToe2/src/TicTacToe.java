@@ -41,8 +41,11 @@ public class TicTacToe implements ActionListener{
 	String Xwon = "X won";
 	String Owon = "O won";
 	
-	String TurnLabel1 = "Your Turn";
-	String TurnLabel2 = "Bots Turn";
+	String defaultLabelPlayer = "Your Turn";
+	String defaultLabelBot = "Bot's Turn";
+	
+	String TurnLabel1 = defaultLabelPlayer;
+	String TurnLabel2 = defaultLabelBot;
 	
 	boolean draw = false;
 	boolean Xwin = false;
@@ -105,9 +108,15 @@ public class TicTacToe implements ActionListener{
 	JLabel Buttoncolor = new JLabel("Buttoncolor", SwingConstants.CENTER);
 	JLabel Gridcolor = new JLabel("Gridcolor", SwingConstants.CENTER);
 	
-	boolean localCoop = false;
+	
 	boolean gameOver = false;
 	boolean inMenu = false;
+	
+	boolean EasyMode=false;
+	boolean MediumMode = true;
+	boolean HardMode = false;
+	boolean ExtremeMode = false;
+	boolean localCoop = false;
 	
 	boolean press1 = false;
 	boolean press2 = false;
@@ -155,8 +164,14 @@ public class TicTacToe implements ActionListener{
 			while(!gameOver && !localCoop) {
 				if(!playersTurn) {
 				//System.out.println(winner);
-				//botMediumAI();
-				botEasyAI();
+					if(EasyMode) {
+						System.out.println("You chose easy!");
+						botEasyAI();
+					}
+					else if(MediumMode) {
+						System.out.println("You chose medium!");
+						botMediumAI();
+				}
 				}
 				else {
 					System.out.print("");
@@ -1821,13 +1836,68 @@ else {
 			
 		}
 		
-		
+		if(e.getSource()==easy) {
+			
+			MediumMode = false;
+			HardMode = false;
+			ExtremeMode = false;
+			localCoop = false;
+			EasyMode = true;
+			
+			TurnLabel1 = defaultLabelPlayer;
+			TurnLabel2 = defaultLabelBot;
+			
+		}
+		if(e.getSource()==medium) {
+			
+			EasyMode = false;			
+			HardMode = false;
+			ExtremeMode = false;
+			localCoop = false;
+			MediumMode = true;
+			
+			TurnLabel1 = defaultLabelPlayer;
+			TurnLabel2 = defaultLabelBot;
+			
+		}
+		if(e.getSource()==hard) {
+			
+			EasyMode = false;
+			MediumMode = false;
+			ExtremeMode = false;
+			localCoop = false;
+			HardMode = true;
+			
+			TurnLabel1 = defaultLabelPlayer;
+			TurnLabel2 = defaultLabelBot;
+			
+		}
+		if(e.getSource()==extreme) {
+			
+			EasyMode = false;
+			MediumMode = false;
+			HardMode = false;
+			localCoop = false;
+			ExtremeMode = true;
+			
+			TurnLabel1 = defaultLabelPlayer;
+			TurnLabel2 = defaultLabelBot;
+			
+		}
 		if(e.getSource()==Player) {
 			
+			EasyMode = false;
+			MediumMode = false;
+			HardMode = false;
+			ExtremeMode = false;
 			localCoop = true;
 			System.out.println("localCoop");
 			
+			TurnLabel1 = "Player 1's turn";
+			TurnLabel2 = "Player 2's turn";
+			
 		}
+		
 		
 		
 		
@@ -1907,10 +1977,8 @@ else {
 			}
 			for(int r = 0; r<9; r++) {
 				AllGameButtons[r].setBackground(ButtonColor);
-
 				AllGameButtons[r].setText("");
 				AllGameButtons[r].setEnabled(true);
-				System.out.println("hey");
 			}
 			//setReiheSpalteDiagonale();
 			//System.out.println(Alle);
@@ -2116,7 +2184,7 @@ else {
 					
 					fillArray();
 					
-					label.setText(TurnLabel2);
+					label.setText(TurnLabel1);
 					playersTurn = true;	
 					press1 = false;
 					win();
@@ -2128,7 +2196,7 @@ else {
 					AllGameButtons[1].setText(BotSymbol);
 					fillArray();
 					
-					label.setText(TurnLabel2);
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press2 = false;
 					win();
@@ -2140,7 +2208,7 @@ else {
 					AllGameButtons[2].setText(BotSymbol);
 					fillArray();
 					
-					label.setText(TurnLabel2);
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press3 = false;
 					win();
@@ -2152,7 +2220,7 @@ else {
 					AllGameButtons[3].setText(BotSymbol);
 					fillArray();
 					
-					label.setText(TurnLabel2);
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press4 = false;
 					win();
@@ -2163,7 +2231,7 @@ else {
 					AllGameButtons[4].setText(BotSymbol);
 					fillArray();
 					
-					label.setText(TurnLabel2);
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press5 = false;
 					win();
@@ -2175,7 +2243,7 @@ else {
 					AllGameButtons[5].setText(BotSymbol);
 					fillArray();
 					
-					label.setText(TurnLabel2);
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press6 = false;
 					win();
@@ -2187,7 +2255,7 @@ else {
 					AllGameButtons[6].setText(BotSymbol);
 					fillArray();
 					
-					label.setText(TurnLabel2);
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press7 = false;
 					win();
@@ -2199,7 +2267,7 @@ else {
 					AllGameButtons[7].setText(BotSymbol);
 					fillArray();
 				
-					label.setText(TurnLabel2);
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press8 = false;
 					win();
@@ -2211,7 +2279,7 @@ else {
 					AllGameButtons[8].setText(BotSymbol);
 					fillArray();
 					
-					label.setText(TurnLabel2);
+					label.setText(TurnLabel1);
 					playersTurn = true;
 					press9 = false;
 					win();
