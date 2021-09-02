@@ -2600,7 +2600,7 @@ private void botHardAI() {
 				//MainPanel.setVisible(false);
 				//frame.add(menuPanel);
 				//fillMenuPanel();
-				
+				//
 				
 				inMenu = true;
 			}
