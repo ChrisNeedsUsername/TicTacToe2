@@ -1,0 +1,5 @@
+Difficulty = 
+PlayerColor = -16711936
+BotColor = -65536
+ButtonColor = -12566464
+GridColor = -4144960

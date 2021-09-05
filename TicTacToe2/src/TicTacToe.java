@@ -1,28 +1,27 @@
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 
 public class TicTacToe implements ActionListener{
 
 	ArrayList<Integer> winner = new ArrayList<Integer>();
+	
+	File configFile = new File("config.txt");
+	Properties prop = new Properties();
+	String fileName = "config.txt";
 	
 	JFrame frame = new JFrame();
 	JPanel MainPanel = new JPanel();
@@ -33,9 +32,23 @@ public class TicTacToe implements ActionListener{
 	//JPanel with CardLayout to switch between overlapping panels -> MainPanel, menuPanel
 	JPanel gameMenuCard = new JPanel(new CardLayout());
 	
+	
 	JLabel label = new JLabel();
 	ImageIcon icon = new ImageIcon("icon.png");
 	ImageIcon MenuIcon = new ImageIcon("Zahnrad.png");
+	
+	//saved Configs
+	String savedDesign;
+	String savedDifficulty;
+	Color savedPlayerColor;
+	Color savedBotColor;
+	Color savedButtonColor;
+	Color savedGridColor;
+	
+	
+	
+	
+	
 	
 	String Draw = "Draw";
 	String Xwon = "X won";
@@ -53,6 +66,10 @@ public class TicTacToe implements ActionListener{
 	boolean Xwin = false;
 	boolean Owin = false;
 	
+	boolean lightModeOn = false;
+	boolean darkModeOn = true;
+	boolean customModeOn = false;
+	
 	boolean playersTurn;
 	
 	//Symbols
@@ -60,12 +77,14 @@ public class TicTacToe implements ActionListener{
 	String BotSymbol;
 	
 	//Colors
-	Color PlayerColor = Color.green;
+	Color PlayerColor = Color.green;;
 	Color BotColor = Color.red;
+	
 	Color ButtonColor = Color.DARK_GRAY;
 	Color GridColor = Color.LIGHT_GRAY;
 	
 	Color WinnerButtonColor = new Color(20, 200, 20);
+	Color WinnerFontColor = Color.DARK_GRAY;
 	
 	static Color colorTL = Color.blue;
 	static Color colorML = Color.green;
@@ -76,6 +95,7 @@ public class TicTacToe implements ActionListener{
 	
 	//Font
 	Font myFont = new Font("Kalam", Font.CENTER_BASELINE, 25);
+
 	
 	//Menu
 	JPanel menuPanel = new JPanel(new GridLayout(6, 1, 5, 5));
@@ -91,7 +111,7 @@ public class TicTacToe implements ActionListener{
 	//Line 1
 	JLabel Line1 = new JLabel("Design:", SwingConstants.CENTER);
 	JRadioButton light = new JRadioButton("light");
-	JRadioButton dark = new JRadioButton("dark", true);
+	JRadioButton dark = new JRadioButton("dark");
 	JRadioButton custom = new JRadioButton("custom");
 	ButtonGroup group1 = new ButtonGroup();
 	
@@ -110,9 +130,15 @@ public class TicTacToe implements ActionListener{
 	JLabel Buttoncolor = new JLabel("Buttoncolor", SwingConstants.CENTER);
 	JLabel Gridcolor = new JLabel("Gridcolor", SwingConstants.CENTER);
 	
+	//Line 4
+	JPanel PlayerColorDropTarget = new JPanel();
+	JPanel BotColorDropTarget = new JPanel();
+	JPanel ButtonColorDropTarget = new JPanel();
+	JPanel GridColorDropTarget = new JPanel();
+	
 	//Line 6
-	//JButton MainMenu = new JButton("Main Menu");
-	JButton QuitGame = new JButton("Quit Game");
+	//Button MainMenu = new Button("Main Menu");
+	Button QuitGame = new Button("Quit Game");
 	 
 	
 	boolean gameOver = false;
@@ -155,8 +181,24 @@ public class TicTacToe implements ActionListener{
 	JButton restartButton = new JButton("Restart");
 	JButton MenuButton = new JButton(MenuIcon);
 	
+	boolean readConfigSuccess = false;
+	
 	public void startTicTacToe() {
 				
+		//createConfigFile();
+		
+		readConfigFile();
+
+		if(ButtonColor.equals(Color.DARK_GRAY) && GridColor.equals(Color.LIGHT_GRAY)) {
+			dark.setSelected(true);
+		}
+		else if(ButtonColor.equals(Color.LIGHT_GRAY) && GridColor.equals(Color.DARK_GRAY)){
+			light.setSelected(true);
+		}
+		else {
+			custom.setSelected(true);
+		}
+		
 		getSymbol();
 		firstTurn();
 		//setReiheSpalteDiagonale();
@@ -215,6 +257,16 @@ public class TicTacToe implements ActionListener{
 		frame.setSize(700,815);
 		//System.out.println(frame.getSize());
 		frame.setLocationRelativeTo(null); 
+		
+		frame.addWindowListener(new WindowAdapter() { 
+			public void windowClosing(WindowEvent e) {
+				
+				System.out.println("closed game"); frame.dispose(); 
+				createAndWriteFile();
+				//writeConfigFile();
+				
+			} });
+		
 		frame.setVisible(true);
 		
 		// Text and icon in header
@@ -262,8 +314,8 @@ public class TicTacToe implements ActionListener{
 		menuLine1.setBackground(MenuColor);//MenuColor);
 		menuLine2.setBackground(MenuColor);//MenuColor);
 		menuLine3.setBackground(MenuColor);//MenuColor);
-		menuLine4.setBackground(Color.green);//MenuColor);
-		menuLine5.setBackground(Color.yellow);//(MenuColor);
+		menuLine4.setBackground(MenuColor);//MenuColor);
+		menuLine5.setBackground(MenuColor);//(MenuColor);
 		menuLine6.setBackground(MenuColor);//(MenuColor);
 		
 		
@@ -273,7 +325,8 @@ public class TicTacToe implements ActionListener{
 		gameMenuCard.add(menuPanel, "nameMenuPanel");
 		frame.add(gameMenuCard, BorderLayout.CENTER);
 		
-		//Line 1
+		//Line 1 Design ändern, hell, dunkel
+		custom.setEnabled(false);
 		group1.add(light);
 		group1.add(dark);
 		group1.add(custom);
@@ -309,7 +362,7 @@ public class TicTacToe implements ActionListener{
 		menuLine1.add(dark);
 		menuLine1.add(custom);
 		
-		//Line 2
+		//Line 2 Schwierigkeitsgrad ändern
 		group2.add(easy);
 		group2.add(medium);
 		group2.add(hard);
@@ -366,7 +419,7 @@ public class TicTacToe implements ActionListener{
 		menuLine2.add(extreme);
 		menuLine2.add(Player);
 
-		//Line 3
+		//Line 3 Text zum Anzeigen welche Farbe wo angwewandt wird
 		Playercolor.setForeground(MenuFontColor);
 		Playercolor.setFont(myFont);
 		
@@ -384,15 +437,38 @@ public class TicTacToe implements ActionListener{
 		menuLine3.add(Buttoncolor);
 		menuLine3.add(Gridcolor);
 		
-		//Line 6
+		//Line 4 Panels zum Zuordnen der Farben
+		PlayerColorDropTarget.setBackground(new Color(0,0,12));
+		PlayerColorDropTarget.setFocusable(false);
+		
+		BotColorDropTarget.setBackground(new Color(0,0,12));
+		BotColorDropTarget.setFocusable(false);
+		
+		ButtonColorDropTarget.setBackground(new Color(0,0,12));
+		ButtonColorDropTarget.setFocusable(false);
+		
+		GridColorDropTarget.setBackground(new Color(0,0,12));
+		GridColorDropTarget.setFocusable(false);
+		
+		menuLine4.add(PlayerColorDropTarget);
+		menuLine4.add(BotColorDropTarget);
+		menuLine4.add(ButtonColorDropTarget);
+		menuLine4.add(GridColorDropTarget);
+		
+		//Line 5 Panels? mit Farben zum Freischalten
+		
+		
+		
+		//Line 6 Buttons: Quit Game (Main Menu)
 		QuitGame.setForeground(MenuFontColor);
-		QuitGame.setBackground(MenuColor);
+		QuitGame.setBackground(new Color(58, 58, 60));
 		QuitGame.setFont(myFont);
 		QuitGame.setFocusable(false);
 		QuitGame.addActionListener(this);
-		QuitGame.setHorizontalAlignment(SwingConstants.CENTER);
-		QuitGame.setBorderPainted(false);
+		//QuitGame.setHorizontalAlignment(SwingConstants.CENTER);
+		//QuitGame.setBorderPainted(false);
 		
+		menuLine6.setBorder(new EmptyBorder(0,230,0,230));// ändern wenn button main menu hinzu kommt!
 		menuLine6.add(QuitGame);
 		
 		
@@ -416,7 +492,7 @@ public class TicTacToe implements ActionListener{
 		//restartButton.setBackground(new Color(44, 44, 46));
 		restartButton.setForeground(Color.LIGHT_GRAY);
 		restartButton.setFont(myFont);
-		restartButton.setBorderPainted(false);
+		 restartButton.setBorderPainted(false);
 		restartButton.setPreferredSize(new Dimension(120, 50));
 		topRight.add(restartButton, BorderLayout.EAST);
 	
@@ -566,47 +642,211 @@ public class TicTacToe implements ActionListener{
 		
 	}
 	
+	private void createAndWriteFile() {
+		
+		//configFile = new File("config.txt");
+	    if (configFile.exists()) {
+	    	configFile.delete();
+	    }
+	    
+	    try {
+			configFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	    //Write:
+	    writeConfigFile();
+	    
+	    // set to read-only, canWrite = false */
+	    configFile.setWritable(false);
+	  }
+	
+	/*
+	private void createConfigFile() {
+		  try {
+		      File configFile = new File("config.txt");
+		      if (configFile.createNewFile()) {
+		        System.out.println("File created: " + configFile.getName());     
+		      } else {
+		        System.out.println("File already exists.");
+		      }
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+	}
+	*/
+	private void writeConfigFile() {
+		
+	    try {
+	        FileWriter myWriter = new FileWriter("config.txt");
+	        
+	       // myWriter.write("FrameSize: " + "\n"); //lieber immer 
+	       // myWriter.write("Design = " + "\n");  //Speicher eh Button und GridCOlor -> Design also unnötig
+	        myWriter.write("Difficulty = " + "\n");
+	        myWriter.write("PlayerColor = " + String.valueOf(PlayerColor.getRGB()) + "\n");
+	        myWriter.write("BotColor = " + String.valueOf(BotColor.getRGB()) + "\n");
+	        myWriter.write("ButtonColor = " + String.valueOf(AllGameButtons[1].getBackground().getRGB()) + "\n");
+	        myWriter.write("GridColor = " + String.valueOf(MainPanel.getBackground().getRGB()) + "\n");
+	        //myWriter.write("Coins: "); kann SPieler in config ändern! --> unendlich Coins!!
+	        
+	        myWriter.close();
+	      //  System.out.println("Successfully wrote to the file.");
+	      } catch (IOException e) {
+	        System.out.println("An error occurred.");
+	        e.printStackTrace();
+	      }
+		
+	}
+	
+	
+	private void readConfigFile() {
+		
+		try (FileInputStream fis = new FileInputStream(fileName)) {
+		    prop.load(fis);
+		    
+		
+		    try {
+		    	
+		    int intPlayerColor = Integer.parseInt(prop.getProperty("PlayerColor"));
+			savedPlayerColor = new Color (intPlayerColor);
+			
+			int intBotColor = Integer.parseInt(prop.getProperty("BotColor"));
+			savedBotColor = new Color (intBotColor);
+			
+		    int intButtonColor = Integer.parseInt(prop.getProperty("ButtonColor"));
+			savedButtonColor = new Color (intButtonColor);
+			
+			int intGridColor = Integer.parseInt(prop.getProperty("GridColor"));
+			savedGridColor = new Color (intGridColor);
+			
+			
+			PlayerColor = savedPlayerColor;
+			BotColor = savedBotColor;
+			
+			for(int i = 0; i<9; i++) {
+				AllGameButtons[i].setBackground(savedButtonColor);
+			}
+			MainPanel.setBackground(savedGridColor);
+			
+			
+		    }
+		    catch(Exception e) {
+		    	System.out.println(e);
+		    }
+		    
+		    
+		    
+		    
+		    readConfigSuccess = true;
+		} catch (FileNotFoundException ex) {
+			readConfigSuccess = false;
+		} catch (IOException ex) {
+		    
+		}
+
+		/*
+		System.out.println(prop.getProperty("Difficulty"));
+		System.out.println(prop.getProperty("PlayerColor"));
+		System.out.println(prop.getProperty("BotColor"));
+		System.out.println(prop.getProperty("ButtonColor"));
+		System.out.println(prop.getProperty("GridColor"));
+		*/
+		
+		/* read with Scanner... ich benutz lieber FileInputStream
+		try {
+		      //File myObj = new File("filename.txt");
+		      Scanner myReader = new Scanner(configFile);
+		      while (myReader.hasNextLine()) {
+		        String data = myReader.nextLine();
+		        System.out.println(data);
+		      }
+		      myReader.close();
+		    } catch (FileNotFoundException e) {
+		      System.out.println("Can't read! File not existing!");
+		     // e.printStackTrace();
+		    }	
+		    */
+	}
+	
+	
+	
+	
+	
 	private void setWinnerButtonsColor() {
 		
 		if(Reihe1 == 3 || Reihe1 == 30) {
 			AllGameButtons[0].setBackground(WinnerButtonColor);
 			AllGameButtons[1].setBackground(WinnerButtonColor);
 			AllGameButtons[2].setBackground(WinnerButtonColor);
+			
+			AllGameButtons[0].setForeground(WinnerFontColor);
+			AllGameButtons[1].setForeground(WinnerFontColor);
+			AllGameButtons[2].setForeground(WinnerFontColor);
 		}
 		if(Reihe2 == 3 || Reihe2 == 30) {
 			AllGameButtons[3].setBackground(WinnerButtonColor);
 			AllGameButtons[4].setBackground(WinnerButtonColor);
 			AllGameButtons[5].setBackground(WinnerButtonColor);
+			
+			AllGameButtons[3].setForeground(WinnerFontColor);
+			AllGameButtons[4].setForeground(WinnerFontColor);
+			AllGameButtons[5].setForeground(WinnerFontColor);
 		}
 		if(Reihe3 == 3 || Reihe3 == 30) {
 			AllGameButtons[6].setBackground(WinnerButtonColor);
 			AllGameButtons[7].setBackground(WinnerButtonColor);
 			AllGameButtons[8].setBackground(WinnerButtonColor);
+			
+			AllGameButtons[6].setForeground(WinnerFontColor);
+			AllGameButtons[7].setForeground(WinnerFontColor);
+			AllGameButtons[8].setForeground(WinnerFontColor);
 		}
 		if(Spalte1 == 3 || Spalte1 == 30) {
 			AllGameButtons[0].setBackground(WinnerButtonColor);
 			AllGameButtons[3].setBackground(WinnerButtonColor);
 			AllGameButtons[6].setBackground(WinnerButtonColor);
+			
+			AllGameButtons[0].setForeground(WinnerFontColor);
+			AllGameButtons[3].setForeground(WinnerFontColor);
+			AllGameButtons[6].setForeground(WinnerFontColor);
 		}
 		if(Spalte2 == 3 || Spalte2 == 30) {
 			AllGameButtons[1].setBackground(WinnerButtonColor);
 			AllGameButtons[4].setBackground(WinnerButtonColor);
 			AllGameButtons[7].setBackground(WinnerButtonColor);
+			
+			AllGameButtons[1].setForeground(WinnerFontColor);
+			AllGameButtons[4].setForeground(WinnerFontColor);
+			AllGameButtons[7].setForeground(WinnerFontColor);
 		}
 		if(Spalte3 == 3 || Spalte3 == 30) {
 			AllGameButtons[2].setBackground(WinnerButtonColor);
 			AllGameButtons[5].setBackground(WinnerButtonColor);
 			AllGameButtons[8].setBackground(WinnerButtonColor);
+			
+			AllGameButtons[2].setForeground(WinnerFontColor);
+			AllGameButtons[5].setForeground(WinnerFontColor);
+			AllGameButtons[8].setForeground(WinnerFontColor);
 		}
 		if(Diagonal1 == 3 || Diagonal1 == 30) {
 			AllGameButtons[0].setBackground(WinnerButtonColor);
 			AllGameButtons[4].setBackground(WinnerButtonColor);
 			AllGameButtons[8].setBackground(WinnerButtonColor);
+			
+			AllGameButtons[0].setForeground(WinnerFontColor);
+			AllGameButtons[4].setForeground(WinnerFontColor);
+			AllGameButtons[8].setForeground(WinnerFontColor);
 		}
 		if(Diagonal2 == 3 || Diagonal2 == 30) {
 			AllGameButtons[2].setBackground(WinnerButtonColor);
 			AllGameButtons[4].setBackground(WinnerButtonColor);
 			AllGameButtons[6].setBackground(WinnerButtonColor);
+			
+			AllGameButtons[2].setForeground(WinnerFontColor);
+			AllGameButtons[4].setForeground(WinnerFontColor);
+			AllGameButtons[6].setForeground(WinnerFontColor);
 		}
 	}
 	
@@ -632,8 +872,6 @@ public class TicTacToe implements ActionListener{
 	
 	
 	private void win() {
-		
-		
 		
 		//System.out.println(winner);
 		setReiheSpalteDiagonale();
@@ -2435,12 +2673,27 @@ private void botHardAI() {
 		getSymbol();
 		firstTurn();
 
+		if(darkModeOn) {
+			setDarkMode();
+		}
+		else if(lightModeOn) {
+			setLightMode();
+		}
+		else if(customModeOn) {
+			
+			//Use custom Colors
+			//Load custom colors from config.txt at gamestart and set them, then use them here
+		}
+		else {
+			setDarkMode();
+		}
+		
 		
 		for(int i=0; i<10; i++) {
 			winner.set(i, 0);
 		}
 		for(int r = 0; r<9; r++) {
-			AllGameButtons[r].setBackground(ButtonColor);
+			//AllGameButtons[r].setBackground(ButtonColor);
 			AllGameButtons[r].setText("");
 			AllGameButtons[r].setEnabled(true);
 		}
@@ -2453,6 +2706,25 @@ private void botHardAI() {
 
 		
 	}
+	
+	private void setDarkMode() {
+		
+		for(int i=0; i<9; i++) {
+			AllGameButtons[i].setBackground(ButtonColor);
+		}
+		MainPanel.setBackground(GridColor);
+		
+	}
+	
+	private void setLightMode() {
+		
+		for(int i=0; i<9; i++) {
+			AllGameButtons[i].setBackground(new Color(245, 245, 245));		
+		}
+		MainPanel.setBackground(ButtonColor);
+		
+	}
+	
 	
 	private void getTemporaryLabel() {
 		
@@ -2486,6 +2758,27 @@ private void botHardAI() {
 			
 			
 		}
+		
+		//Deisgn
+		
+		if(e.getSource()==light) {
+			customModeOn = false;
+			darkModeOn = false;
+			lightModeOn = true;
+			
+			setLightMode();
+			System.out.println("light mode");
+		}
+		
+		if(e.getSource()==dark) {
+			customModeOn = false;
+			lightModeOn = false;
+			darkModeOn = true;
+			
+			setDarkMode();
+			System.out.println("dark mode");
+		}
+		
 		
 		if(e.getSource()==QuitGame) {
 			
@@ -2598,6 +2891,11 @@ private void botHardAI() {
 				if(switchedMode) {
 					
 					restartGame();
+					
+				}
+				if(darkModeOn) {
+					
+					setDarkMode();
 					
 				}
 				
