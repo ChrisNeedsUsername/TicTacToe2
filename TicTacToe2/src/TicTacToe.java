@@ -37,8 +37,11 @@ public class TicTacToe implements ActionListener{
 	ImageIcon icon = new ImageIcon("icon.png");
 	ImageIcon MenuIcon = new ImageIcon("Zahnrad.png");
 	
+	
+	String Difficulty;
+	
 	//saved Configs
-	String savedDesign;
+	//String savedDesign;
 	String savedDifficulty;
 	Color savedPlayerColor;
 	Color savedBotColor;
@@ -61,6 +64,9 @@ public class TicTacToe implements ActionListener{
 	
 	String TurnLabel1 = defaultLabelPlayer;
 	String TurnLabel2 = defaultLabelBot;
+	
+	String TurnLabelCoop1 = "Player 1's turn";
+	String TurnLabelCoop2 = "Player 2's turn";
 	
 	boolean draw = false;
 	boolean Xwin = false;
@@ -118,7 +124,7 @@ public class TicTacToe implements ActionListener{
 	//Line 2
 	JLabel Line2 = new JLabel("Difficulty:", SwingConstants.CENTER);
 	JRadioButton easy = new JRadioButton("easy");
-	JRadioButton medium = new JRadioButton("medium", true);
+	JRadioButton medium = new JRadioButton("medium");
 	JRadioButton hard = new JRadioButton("hard");
 	JRadioButton extreme = new JRadioButton("extreme");
 	JRadioButton Player = new JRadioButton("Player");
@@ -145,7 +151,7 @@ public class TicTacToe implements ActionListener{
 	boolean inMenu = false;
 	
 	boolean EasyMode=false;
-	boolean MediumMode = true;
+	boolean MediumMode = false;
 	boolean HardMode = false;
 	boolean ExtremeMode = false;
 	boolean localCoop = false;
@@ -189,6 +195,43 @@ public class TicTacToe implements ActionListener{
 		
 		readConfigFile();
 
+		System.out.println("easy: "+EasyMode);
+		System.out.println("medium: "+MediumMode);
+		System.out.println("hard: "+HardMode);
+		System.out.println("extreme: "+ExtremeMode);
+		System.out.println("localCoop: "+localCoop);
+		
+		if(EasyMode) {
+			easy.setSelected(true);
+			System.out.println("easy");
+		}
+		else if(MediumMode) {
+			medium.setSelected(true);
+			System.out.println("medium");
+		}
+		else if(HardMode) {
+			hard.setSelected(true);
+			System.out.println("hard");
+		}
+		else if(ExtremeMode) {
+			extreme.setSelected(true);
+			System.out.println("extreme");
+		}
+		else if(localCoop) {
+			Player.setSelected(true);
+			System.out.println("localCoop");
+			
+			TurnLabel1 = TurnLabelCoop1;
+			TurnLabel2 = TurnLabelCoop2;
+		}
+		else {
+			System.out.println("nothing saved, hard");
+			hard.setSelected(true);
+			Difficulty = "hard";
+			HardMode = true;
+		}
+		
+		
 		if(ButtonColor.equals(Color.DARK_GRAY) && GridColor.equals(Color.LIGHT_GRAY)) {
 			dark.setSelected(true);
 		}
@@ -261,9 +304,26 @@ public class TicTacToe implements ActionListener{
 		frame.addWindowListener(new WindowAdapter() { 
 			public void windowClosing(WindowEvent e) {
 				
-				System.out.println("closed game"); frame.dispose(); 
+				//System.out.println("closed game");  
+				
+				if(EasyMode) {
+					Difficulty = "easy";
+				}
+				else if(MediumMode) {
+					Difficulty = "medium";
+				}
+				else if(HardMode) {
+					Difficulty = "hard";
+				}
+				else if(ExtremeMode) {
+					Difficulty = "extreme";
+				}
+				else if(localCoop) {
+					Difficulty = "localCoop";
+				}
+				
 				createAndWriteFile();
-				//writeConfigFile();
+				frame.dispose();
 				
 			} });
 		
@@ -684,7 +744,7 @@ public class TicTacToe implements ActionListener{
 	        
 	       // myWriter.write("FrameSize: " + "\n"); //lieber immer 
 	       // myWriter.write("Design = " + "\n");  //Speicher eh Button und GridCOlor -> Design also unnötig
-	        myWriter.write("Difficulty = " + "\n");
+	        myWriter.write("Difficulty = " + Difficulty+"\n");
 	        myWriter.write("PlayerColor = " + String.valueOf(PlayerColor.getRGB()) + "\n");
 	        myWriter.write("BotColor = " + String.valueOf(BotColor.getRGB()) + "\n");
 	        myWriter.write("ButtonColor = " + String.valueOf(AllGameButtons[1].getBackground().getRGB()) + "\n");
@@ -730,6 +790,35 @@ public class TicTacToe implements ActionListener{
 			}
 			MainPanel.setBackground(savedGridColor);
 			
+			savedDifficulty = prop.getProperty("Difficulty");
+			savedDifficulty.trim(); 
+			System.out.println(savedDifficulty);
+			
+			if(savedDifficulty.equals("easy") ) {
+				
+				//medium.setSelected(false);
+				//easy.setSelected(true);
+				
+				EasyMode = true;
+			}
+			if(savedDifficulty.equals("medium")) {
+				//medium.setSelected(true);
+				MediumMode = true;
+			}
+			if(savedDifficulty.equals("hard")) {
+				//hard.setSelected(true);
+				HardMode = true;
+			}
+			if(savedDifficulty.equals("extreme")) {
+				//hardMode an statt extreme, weil extreme auf Zeit ist und nach Start soll Zeit noch nicht ablaufen?! Oder Zeit läuft erst ab Spielers 1. Zug
+				//hard.setSelected(true);
+				ExtremeMode = true;
+			}
+			if(savedDifficulty.equals("localCoop")) {
+				//Player.setSelected(true);
+				localCoop = true;
+				System.out.println("set LocalCoop");
+			}
 			
 		    }
 		    catch(Exception e) {
@@ -2800,6 +2889,8 @@ private void botHardAI() {
 			TurnLabel1 = defaultLabelPlayer;
 			TurnLabel2 = defaultLabelBot;
 			
+
+			
 			
 		}
 		if(e.getSource()==medium) {
@@ -2857,8 +2948,8 @@ private void botHardAI() {
 			switchedMode = true;
 			//System.out.println("localCoop");
 			
-			TurnLabel1 = "Player 1's turn";
-			TurnLabel2 = "Player 2's turn";
+			TurnLabel1 = TurnLabelCoop1;
+			TurnLabel2 = TurnLabelCoop2;
 			
 		}
 		
